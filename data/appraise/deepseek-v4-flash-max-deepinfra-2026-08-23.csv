@@ -1,0 +1,6 @@
+experiment_id,run_id,model_slug,model_id,task_id,sample_id,method_id,status,prompt_tokens,completion_tokens,output_words,reasoning_tokens,elapsed_ms,cost,error,created_at
+appraisal-deepseek-v4-flash-max,8,deepseek-v4-flash-max,deepseek-ai/DeepSeek-V4-Flash-0731,,code,,success,692,20,,,657,0.0000589600,,2026-08-23T09:11:02.593537
+appraisal-deepseek-v4-flash-max,8,deepseek-v4-flash-max,deepseek-ai/DeepSeek-V4-Flash-0731,,prose,,success,281,20,,,437,0.0000260800,,2026-08-23T09:11:03.037122
+appraisal-deepseek-v4-flash-max,8,deepseek-v4-flash-max,deepseek-ai/DeepSeek-V4-Flash-0731,,blended,,success,436,20,,,516,0.0000384800,,2026-08-23T09:11:03.545418
+appraisal-deepseek-v4-flash-max,8,deepseek-v4-flash-max,deepseek-ai/DeepSeek-V4-Flash-0731,,,,success,12,615,,,4530,0.0001116600,,2026-08-23T09:11:08.078651
+appraisal-deepseek-v4-flash-max,8,deepseek-v4-flash-max,deepseek-ai/DeepSeek-V4-Flash-0731,,,,success,38,179,,,1078,0.0000352600,,2026-08-23T09:11:09.161610

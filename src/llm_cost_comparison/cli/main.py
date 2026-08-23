@@ -63,7 +63,6 @@ def run(
     provider: str = typer.Option(
         "openrouter",
         "--provider",
-        click_type=typer.Choice(["openrouter", "deepinfra"]),
     ),
 ) -> None:
     """Run a configured experiment and persist its measurements."""
@@ -93,7 +92,6 @@ def appraise(
     provider: str = typer.Option(
         "openrouter",
         "--provider",
-        click_type=typer.Choice(["openrouter", "deepinfra"]),
     ),
 ) -> None:
     """Run the per-model appraisal pipeline for a single model."""
@@ -131,7 +129,9 @@ def _client(provider: str, settings: Settings) -> LLMClient:
     """Construct the selected provider client."""
     if provider == "deepinfra":
         return DeepInfraClient(settings)
-    return OpenRouterClient(settings)
+    if provider == "openrouter":
+        return OpenRouterClient(settings)
+    raise typer.BadParameter("--provider must be 'openrouter' or 'deepinfra'")
 
 
 @app.command()
