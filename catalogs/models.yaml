@@ -39,11 +39,16 @@ models:
       input: 0.072
       output: 0.144
       cached_read: 0.003
+    deepinfra:
+      input: 0.08
+      output: 0.18
+      cached_read: 0.016
   features: Re-post-trained GA release. Agentic benchmark leader at budget pricing.
   specialty: Fast coding, agentic workflows, and high-throughput daily work.
   strategy_note: Best value in Budget tier after 0731 post-training. Beats Pro-Preview
     on agent tasks at a third of the output price.
   openrouter_id: deepseek/deepseek-v4-flash-0731
+  deepinfra_id: deepseek-ai/DeepSeek-V4-Flash-0731
   reasoning_effort: max
 - slug: deepseek-v4-pro
   name: DeepSeek V4 Pro 0813

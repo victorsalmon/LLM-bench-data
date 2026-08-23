@@ -38,13 +38,14 @@ class TokenizerEfficiencyExperiment(Experiment):
         for model in catalog.resolve_model_refs(config.model_refs):
             for sample in catalog.resolve_sample_refs(config.sample_refs):
                 text = sample.absolute_path(catalog.root_path).read_text(encoding="utf-8")
+                model_id = client.model_id(model)
                 request = ChatRequest(
-                    model_id=model.openrouter_id or model.slug,
+                    model_id=model_id,
                     messages=[Message(role="user", content=text)],
                     max_tokens=max_tokens,
                 )
                 response = client.chat(request)
-                price = pricing.get(model.openrouter_id or model.slug)
+                price = pricing.get(model_id)
                 cost = CostCalculator.compute(
                     response.prompt_tokens,
                     response.completion_tokens,
@@ -58,7 +59,7 @@ class TokenizerEfficiencyExperiment(Experiment):
                         run_id=run_id,
                         experiment_id=config.id,
                         model_slug=model.slug,
-                        model_id=model.openrouter_id,
+                        model_id=model_id,
                         sample_id=sample.id,
                         prompt_tokens=response.prompt_tokens,
                         completion_tokens=response.completion_tokens,

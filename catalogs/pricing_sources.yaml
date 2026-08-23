@@ -9,3 +9,8 @@ pricing_sources:
     docs: https://openrouter.ai/models
     type: PAYG
     markup: 5.5% platform fee
+  deepinfra:
+    name: DeepInfra
+    docs: https://docs.deepinfra.com/quickstart
+    type: PAYG
+    markup: Provider token pricing; no platform markup listed

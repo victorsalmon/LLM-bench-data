@@ -19,7 +19,7 @@ The benchmark **data + scripts backend** for Clock Lobster Labs. Tokenizer effic
 ## Tech stack
 
 - **Python 3.12+** package managed by `uv` (`pyproject.toml`).
-- **Typer CLI** (`llmcc`) that calls the **OpenRouter** OpenAI-compatible endpoint (`https://openrouter.ai/api/v1/chat/completions`).
+- **Typer CLI** (`llmcc`) that calls OpenAI-compatible provider endpoints. OpenRouter is the default; DeepInfra is available with `--provider deepinfra`.
 - **SQLModel/SQLite** for measurement storage.
 - **CSV** data (raw measurements + derived summaries) and **JSON** (`models.json`) as the canonical, hand-edited model database.
 
@@ -33,7 +33,7 @@ Install / sync: `uv sync --all-extras`.
 |------|---------|
 | `models.json` | Canonical model DB keyed by kebab slug. Never commit with invalid JSON. |
 | `SKILL.md` | The `research/appraise-llm` skill instructions. |
-| `.env` | **Gitignored.** Holds `OPENROUTER_API_KEY`. Copy from `.env.example`. |
+| `.env` | **Gitignored.** Holds provider API keys (`OPENROUTER_API_KEY` and/or `DEEPINFRA_API_KEY`). Copy from `.env.example`. |
 | `llmcc` | CLI entry point (`uv run llmcc --help`). |
 | `catalogs/` | YAML source of truth for models, tasks, samples, methods, experiments, tiers. |
 | `scripts/` | Python validation + commit helpers (`validate-data.py`, `commit-data.sh`). |

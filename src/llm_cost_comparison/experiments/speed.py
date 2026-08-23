@@ -38,7 +38,7 @@ class SpeedExperiment(Experiment):
         max_tokens = config.params.max_tokens or 3300
 
         for model in catalog.resolve_model_refs(config.model_refs):
-            model_key = model.openrouter_id or model.slug
+            model_key = client.model_id(model)
             response = client.chat(
                 ChatRequest(
                     model_id=model_key,
@@ -62,7 +62,7 @@ class SpeedExperiment(Experiment):
                     run_id=run_id,
                     experiment_id=config.id,
                     model_slug=model.slug,
-                    model_id=model.openrouter_id,
+                    model_id=model_key,
                     prompt_tokens=response.prompt_tokens,
                     completion_tokens=response.completion_tokens,
                     elapsed_ms=response.elapsed_ms,

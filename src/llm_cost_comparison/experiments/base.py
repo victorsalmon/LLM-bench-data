@@ -87,13 +87,16 @@ class ExperimentRunner:
         self,
         models: Sequence[Any],
     ) -> dict[str, ProviderPricing]:
-        """Build an openrouter_id/slug -> pricing map from the catalog."""
+        """Build a provider model ID -> pricing map from the catalog."""
         pricing_map: dict[str, ProviderPricing] = {}
         for model in models:
-            key = model.openrouter_id or model.slug
+            key = self.client.model_id(model)
             if not model.pricing:
                 continue
-            if model.pricing_source and model.pricing_source in model.pricing:
+            provider = self.client.provider_name
+            if provider in model.pricing:
+                pricing_map[key] = model.pricing[provider]
+            elif model.pricing_source and model.pricing_source in model.pricing:
                 pricing_map[key] = model.pricing[model.pricing_source]
             else:
                 pricing_map[key] = next(iter(model.pricing.values()))

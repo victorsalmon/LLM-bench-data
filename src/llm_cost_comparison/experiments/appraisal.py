@@ -42,7 +42,7 @@ class AppraisalExperiment(Experiment):
         speed_max_tokens = 3300
 
         for model in catalog.resolve_model_refs(config.model_refs):
-            model_key = model.openrouter_id or model.slug
+            model_key = client.model_id(model)
             price = pricing.get(model_key)
 
             for sample in catalog.resolve_sample_refs(config.sample_refs):
@@ -64,7 +64,7 @@ class AppraisalExperiment(Experiment):
                         run_id=run_id,
                         experiment_id=config.id,
                         model_slug=model.slug,
-                        model_id=model.openrouter_id,
+                        model_id=model_key,
                         sample_id=sample.id,
                         prompt_tokens=response.prompt_tokens,
                         completion_tokens=response.completion_tokens,
@@ -93,7 +93,7 @@ class AppraisalExperiment(Experiment):
                     run_id=run_id,
                     experiment_id=config.id,
                     model_slug=model.slug,
-                    model_id=model.openrouter_id,
+                    model_id=model_key,
                     prompt_tokens=speed_response.prompt_tokens,
                     completion_tokens=speed_response.completion_tokens,
                     elapsed_ms=speed_response.elapsed_ms,
@@ -118,7 +118,7 @@ class AppraisalExperiment(Experiment):
                     run_id=run_id,
                     experiment_id=config.id,
                     model_slug=model.slug,
-                    model_id=model.openrouter_id,
+                    model_id=model_key,
                     prompt_tokens=reasoning_response.prompt_tokens,
                     completion_tokens=reasoning_response.completion_tokens,
                     reasoning_tokens=reasoning_response.reasoning_tokens,

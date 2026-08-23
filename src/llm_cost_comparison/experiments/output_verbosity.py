@@ -37,13 +37,14 @@ class OutputVerbosityExperiment(Experiment):
 
         for model in catalog.resolve_model_refs(config.model_refs):
             for task in catalog.resolve_task_refs(config.task_refs):
+                model_id = client.model_id(model)
                 request = ChatRequest(
-                    model_id=model.openrouter_id or model.slug,
+                    model_id=model_id,
                     messages=[Message(role="user", content=task.prompt)],
                     max_tokens=task.max_tokens or max_tokens,
                 )
                 response = client.chat(request)
-                price = pricing.get(model.openrouter_id or model.slug)
+                price = pricing.get(model_id)
                 cost = CostCalculator.compute(
                     response.prompt_tokens,
                     response.completion_tokens,
@@ -54,7 +55,7 @@ class OutputVerbosityExperiment(Experiment):
                         run_id=run_id,
                         experiment_id=config.id,
                         model_slug=model.slug,
-                        model_id=model.openrouter_id,
+                        model_id=model_id,
                         task_id=task.id,
                         prompt_tokens=response.prompt_tokens,
                         completion_tokens=response.completion_tokens,

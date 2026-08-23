@@ -1,5 +1,4 @@
-"""Tests for the YAML catalog loader and domain models."""
-
+from decimal import Decimal
 from pathlib import Path
 
 import pytest
@@ -33,6 +32,10 @@ def test_model_lookup() -> None:
     # Resolve from provider id.
     by_id = catalog.get_model_by_openrouter_id("anthropic/claude-fable-5")
     assert by_id.slug == "claude-fable-5"
+
+    ga_flash = catalog.get_model("deepseek-v4-flash-max")
+    assert ga_flash.deepinfra_id == "deepseek-ai/DeepSeek-V4-Flash-0731"
+    assert ga_flash.pricing["deepinfra"].output == Decimal("0.18")
 
 
 def test_task_and_method_lookup() -> None:

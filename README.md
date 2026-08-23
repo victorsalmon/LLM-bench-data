@@ -8,7 +8,7 @@ A reproducible, testable benchmark pipeline for measuring LLM tokenizer efficien
 # Install dependencies and create the virtual environment
 uv sync --all-extras
 
-# Copy the example environment file and add your OpenRouter key
+# Copy the example environment file and add your provider key
 cp .env.example .env
 # edit .env
 
@@ -23,8 +23,11 @@ uv run llmcc validate data/experiment-session5-consolidated.csv
 
 `llmcc validate` and `scripts/validate-data.py --strict` share the same corruption-signature thresholds; the CLI is the canonical implementation.
 
-# Run an experiment (omit --dry-run to call OpenRouter)
+# Run an experiment through OpenRouter (default)
 uv run llmcc run tokenizer-efficiency --dry-run
+
+# Or use DeepInfra's OpenAI-compatible endpoint
+DEEPINFRA_API_KEY=... uv run llmcc run tokenizer-efficiency --provider deepinfra
 
 # Appraise a single model
 uv run llmcc appraise deepseek-v4-flash

@@ -25,6 +25,8 @@ class OpenRouterClient(LLMClient):
     def __init__(self, settings: Settings | None = None) -> None:
         """Initialize an HTTP client with the user's settings and API key."""
         self.settings = settings or Settings()
+        if self.settings.openrouter_api_key is None:
+            raise ValueError("OPENROUTER_API_KEY is required for the OpenRouter provider")
         api_key = self.settings.openrouter_api_key.get_secret_value()
         self._client = httpx.Client(
             base_url=self.BASE_URL,

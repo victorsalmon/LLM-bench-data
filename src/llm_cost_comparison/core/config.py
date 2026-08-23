@@ -15,7 +15,12 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-    openrouter_api_key: SecretStr = Field(validation_alias="OPENROUTER_API_KEY")
+    openrouter_api_key: SecretStr | None = Field(
+        default=None, validation_alias="OPENROUTER_API_KEY"
+    )
+    deepinfra_api_key: SecretStr | None = Field(
+        default=None, validation_alias="DEEPINFRA_API_KEY"
+    )
     output_dir: Path = Field(default=Path("data"), validation_alias="LLMCC_OUTPUT_DIR")
     database_url: str = Field(
         default="sqlite:///data/llm_cost_comparison.db",

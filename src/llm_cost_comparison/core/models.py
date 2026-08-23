@@ -39,6 +39,7 @@ class Model(BaseModel):
     name: str
     family: str
     openrouter_id: str | None = None
+    deepinfra_id: str | None = None
     zen_id: str | None = None
     zen_available: bool = False
     tier: str
@@ -55,6 +56,15 @@ class Model(BaseModel):
     specialty: str | None = None
     strategy_note: str | None = None
     notes: str | None = None
+
+    def provider_id(self, provider: str) -> str:
+        """Return this model's identifier for *provider*."""
+        provider_id = getattr(self, f"{provider}_id", None)
+        if provider_id:
+            return provider_id
+        if provider == "openrouter":
+            return self.slug
+        raise ValueError(f"Model '{self.slug}' has no {provider} identifier")
 
 
 class Task(BaseModel):

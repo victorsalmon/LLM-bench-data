@@ -9,6 +9,8 @@ from typing import Any
 
 import typer
 
+from llm_cost_comparison.clients.base import LLMClient
+from llm_cost_comparison.clients.deepinfra import DeepInfraClient
 from llm_cost_comparison.clients.openrouter import OpenRouterClient
 from llm_cost_comparison.core.catalog import load_catalog
 from llm_cost_comparison.core.config import Settings
@@ -58,6 +60,11 @@ def run(
     catalog_path: Path = typer.Option("catalogs", "--catalog", "-c"),
     database_url: str | None = typer.Option(None, "--db"),
     dry_run: bool = typer.Option(False, "--dry-run"),
+    provider: str = typer.Option(
+        "openrouter",
+        "--provider",
+        click_type=typer.Choice(["openrouter", "deepinfra"]),
+    ),
 ) -> None:
     """Run a configured experiment and persist its measurements."""
     if dry_run:
@@ -68,7 +75,7 @@ def run(
     catalog = _catalog(catalog_path)
     repository = _repository(settings)
 
-    client = OpenRouterClient(settings)
+    client = _client(provider, settings)
     try:
         runner = create_runner(catalog, client, repository)
         run_record = runner.run_experiment(experiment_id)
@@ -83,6 +90,11 @@ def appraise(
     catalog_path: Path = typer.Option("catalogs", "--catalog", "-c"),
     database_url: str | None = typer.Option(None, "--db"),
     output: Path | None = typer.Option(None, "--output", "-o"),
+    provider: str = typer.Option(
+        "openrouter",
+        "--provider",
+        click_type=typer.Choice(["openrouter", "deepinfra"]),
+    ),
 ) -> None:
     """Run the per-model appraisal pipeline for a single model."""
     settings = _settings(database_url)
@@ -98,7 +110,7 @@ def appraise(
         update={"experiments": [*list(catalog.experiments), config]}
     )
     repository = _repository(settings)
-    client = OpenRouterClient(settings)
+    client = _client(provider, settings)
     try:
         runner = create_runner(custom_catalog, client, repository)
         run_record = runner.run_experiment(config.id)
@@ -113,6 +125,13 @@ def appraise(
         )
     finally:
         client.close()
+
+
+def _client(provider: str, settings: Settings) -> LLMClient:
+    """Construct the selected provider client."""
+    if provider == "deepinfra":
+        return DeepInfraClient(settings)
+    return OpenRouterClient(settings)
 
 
 @app.command()

@@ -59,7 +59,7 @@ class CompressionExperiment(Experiment):
         max_tokens = config.params.max_tokens or 4096
 
         for model in catalog.resolve_model_refs(config.model_refs):
-            model_key = model.openrouter_id or model.slug
+            model_key = client.model_id(model)
             for task in catalog.resolve_task_refs(config.task_refs):
                 baseline_pt, baseline_ct, baseline_ms, baseline_content = self._call(
                     model_key,
@@ -74,7 +74,7 @@ class CompressionExperiment(Experiment):
                         run_id=run_id,
                         experiment_id=config.id,
                         model_slug=model.slug,
-                        model_id=model.openrouter_id,
+                        model_id=model_key,
                         task_id=task.id,
                         method_id="none",
                         prompt_tokens=baseline_pt,
@@ -99,7 +99,7 @@ class CompressionExperiment(Experiment):
                             run_id=run_id,
                             experiment_id=config.id,
                             model_slug=model.slug,
-                            model_id=model.openrouter_id,
+                            model_id=model_key,
                             task_id=task.id,
                             method_id=method.id,
                             prompt_tokens=pt,
