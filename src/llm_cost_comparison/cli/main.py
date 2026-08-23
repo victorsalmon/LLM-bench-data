@@ -5,11 +5,11 @@ from __future__ import annotations
 import csv
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import typer
 
-from llm_cost_comparison.clients.base import LLMClient
+from llm_cost_comparison.clients.alibaba import AlibabaClient
 from llm_cost_comparison.clients.deepinfra import DeepInfraClient
 from llm_cost_comparison.clients.openrouter import OpenRouterClient
 from llm_cost_comparison.core.catalog import load_catalog
@@ -26,6 +26,9 @@ from llm_cost_comparison.validation.legacy import (
     LEGACY_CSV_WORD_COUNT_COL,
     validate_csv_signature,
 )
+
+if TYPE_CHECKING:
+    from llm_cost_comparison.clients.base import LLMClient
 
 app = typer.Typer(
     name="llmcc",
@@ -131,7 +134,9 @@ def _client(provider: str, settings: Settings) -> LLMClient:
         return DeepInfraClient(settings)
     if provider == "openrouter":
         return OpenRouterClient(settings)
-    raise typer.BadParameter("--provider must be 'openrouter' or 'deepinfra'")
+    if provider == "alibaba":
+        return AlibabaClient(settings)
+    raise typer.BadParameter("--provider must be 'openrouter', 'deepinfra', or 'alibaba'")
 
 
 @app.command()

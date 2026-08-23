@@ -19,10 +19,12 @@ models:
   strategy_note: Your daily driver on Zen. Best value in the market. No reason to
     switch within tier.
   openrouter_id: deepseek/deepseek-v4-flash
+  alibaba_id: deepseek-v4-flash
   max_variants:
   - slug: deepseek-v4-flash-max
     suffix: max
     openrouter_id: deepseek/deepseek-v4-flash
+    alibaba_id: deepseek-v4-flash
     reasoning_effort: xhigh
 - slug: deepseek-v4-flash-max
   name: DeepSeek V4 Flash 0731
@@ -48,6 +50,7 @@ models:
   strategy_note: Best value in Budget tier after 0731 post-training. Beats Pro-Preview
     on agent tasks at a third of the output price.
   openrouter_id: deepseek/deepseek-v4-flash-0731
+  alibaba_id: deepseek-v4-flash-0731
   deepinfra_id: deepseek-ai/DeepSeek-V4-Flash-0731
   reasoning_effort: max
 - slug: deepseek-v4-pro

@@ -21,6 +21,12 @@ class Settings(BaseSettings):
     deepinfra_api_key: SecretStr | None = Field(
         default=None, validation_alias="DEEPINFRA_API_KEY"
     )
+    alibaba_api_key: SecretStr | None = Field(
+        default=None, validation_alias="ALIBABA_KEYSUB"
+    )
+    alibaba_workspace_id: str | None = Field(
+        default=None, validation_alias="ALIBABA_ID1"
+    )
     output_dir: Path = Field(default=Path("data"), validation_alias="LLMCC_OUTPUT_DIR")
     database_url: str = Field(
         default="sqlite:///data/llm_cost_comparison.db",

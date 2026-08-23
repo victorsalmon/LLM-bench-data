@@ -27,6 +27,7 @@ def test_model_lookup() -> None:
     flash = catalog.get_model("deepseek-v4-flash")
     assert flash.name == "DeepSeek V4 Flash"
     assert flash.openrouter_id == "deepseek/deepseek-v4-flash"
+    assert flash.alibaba_id == "deepseek-v4-flash"
     assert flash.max_variants[0].slug == "deepseek-v4-flash-max"
 
     # Resolve from provider id.
@@ -35,6 +36,7 @@ def test_model_lookup() -> None:
 
     ga_flash = catalog.get_model("deepseek-v4-flash-max")
     assert ga_flash.deepinfra_id == "deepseek-ai/DeepSeek-V4-Flash-0731"
+    assert ga_flash.alibaba_id == "deepseek-v4-flash-0731"
     assert ga_flash.pricing["deepinfra"].output == Decimal("0.18")
 
 

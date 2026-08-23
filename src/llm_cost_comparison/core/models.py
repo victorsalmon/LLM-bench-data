@@ -27,6 +27,7 @@ class MaxVariant(BaseModel):
     slug: str
     suffix: str = "max"
     openrouter_id: str | None = None
+    alibaba_id: str | None = None
     reasoning_effort: str | None = None
 
 
@@ -39,6 +40,7 @@ class Model(BaseModel):
     name: str
     family: str
     openrouter_id: str | None = None
+    alibaba_id: str | None = None
     deepinfra_id: str | None = None
     zen_id: str | None = None
     zen_available: bool = False
