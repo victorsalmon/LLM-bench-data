@@ -28,11 +28,19 @@ def test_settings_redacts_api_key(monkeypatch: pytest.MonkeyPatch) -> None:
 
 
 def test_alibaba_settings_use_workspace_credentials(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.setenv("ALIBABA_KEYSUB", "alibaba-test-key")
+    monkeypatch.setenv("ALIBABA_API", "alibaba-test-key")
     monkeypatch.setenv("ALIBABA_ID1", "workspace-test")
 
     settings = Settings()
 
     assert settings.alibaba_api_key.get_secret_value() == "alibaba-test-key"
     assert settings.alibaba_workspace_id == "workspace-test"
+
+
+def test_alibaba_settings_support_legacy_key_name(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("ALIBABA_KEYSUB", "legacy-alibaba-test-key")
+
+    settings = Settings()
+
+    assert settings.alibaba_api_key.get_secret_value() == "legacy-alibaba-test-key"
     assert "sk-or-v1-secret" not in repr(settings)

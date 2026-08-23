@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from pydantic import Field, SecretStr
+from pydantic import AliasChoices, Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -22,7 +22,8 @@ class Settings(BaseSettings):
         default=None, validation_alias="DEEPINFRA_API_KEY"
     )
     alibaba_api_key: SecretStr | None = Field(
-        default=None, validation_alias="ALIBABA_KEYSUB"
+        default=None,
+        validation_alias=AliasChoices("ALIBABA_API", "ALIBABA_KEYSUB"),
     )
     alibaba_workspace_id: str | None = Field(
         default=None, validation_alias="ALIBABA_ID1"
