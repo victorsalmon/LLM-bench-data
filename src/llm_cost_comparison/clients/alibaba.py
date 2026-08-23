@@ -21,10 +21,14 @@ class AlibabaClient(OpenRouterClient):
         if not self.settings.alibaba_workspace_id:
             raise ValueError("ALIBABA_ID1 is required for the Alibaba provider")
 
-        workspace_id = quote(self.settings.alibaba_workspace_id, safe="")
-        self.base_url = (
-            f"https://{workspace_id}.cn-beijing.maas.aliyuncs.com/compatible-mode/v1"
-        )
+        configured_endpoint = self.settings.alibaba_workspace_id.rstrip("/")
+        if configured_endpoint.startswith(("https://", "http://")):
+            self.base_url = configured_endpoint
+        else:
+            workspace_id = quote(configured_endpoint, safe="")
+            self.base_url = (
+                f"https://{workspace_id}.cn-beijing.maas.aliyuncs.com/compatible-mode/v1"
+            )
         self._client = httpx.Client(
             base_url=self.base_url,
             timeout=httpx.Timeout(self.settings.default_timeout),
