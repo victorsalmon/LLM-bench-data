@@ -74,35 +74,45 @@ The default prompt asks the model to:
 This produces a small, deterministic code output while still generating enough
 tokens for a meaningful speed reading.
 
-## Weekly Cost Estimate
+## Cost Estimate
 
-Prices are per-million-tokens. The schedule runs **8 rounds per week** (every
-3 hours for 24 hours). Manual `--rounds 24` is 3× these amounts. Actual spend
-depends on how much each model generates and which providers are available.
-Estimates use 140 input tokens.
+Prices are per-million-tokens. The schedule runs an 8-round, 24-hour snapshot
+once every **8 days** (8 rounds total per snapshot). Manual `--rounds 24` is
+3× these amounts. Actual spend depends on how much each model generates and
+which providers are available. Estimates use 140 input tokens.
 
 | Profile | Output | 32 non-frontier models | 25 cheap models |
 |---------|--------|------------------------|-----------------|
-| Consistency | 250 | ~$0.32/week | ~$0.14/week |
-| Default | 500 | **~$0.60/week** | **~$0.27/week** |
-| Accuracy | 750 | ~$0.89/week | ~$0.39/week |
+| Consistency | 250 | ~$0.32/snapshot | ~$0.14/snapshot |
+| Default | 500 | **~$0.60/snapshot** | **~$0.27/snapshot** |
+| Accuracy | 750 | ~$0.89/snapshot | ~$0.39/snapshot |
 
-The default schedule runs **8 rounds at 500 `max_tokens`**, costing about
-**$0.60/week** for the full 32-model non-frontier set (only providers with API
-keys are benchmarked).
+At one snapshot every 8 days, the full 32-model set at 500 `max_tokens` costs
+about **~$27.44/year** (~$0.53/week on average).
 
 ## Scheduling
 
 A Tempo schedule in `salmon-orchestrator/Tasks/Schedule/` dispatches the
-benchmark every Monday, every 3 hours, for 24 hours (8 rounds total). Each run
-is a single round:
+benchmark with **8 schedule files**, one per 3-hour slot, each repeating every
+8 days. This makes the 24-hour snapshot drift through the weekdays
+(Monday → Tuesday → Wednesday …). Each run is a single round:
 
 ```powershell
 uv run python scripts/speed-weekly.py --rounds 1 --no-wait
 ```
 
-The schedule cron is `0 */3 * * 1` (00:00, 03:00, 06:00, 09:00, 12:00,
-15:00, 18:00, 21:00 UTC on Mondays). The script is resumable and skips any
+The schedule files are:
+
+- `sched-20260825-001.json` — 00:00 UTC
+- `sched-20260825-002.json` — 03:00 UTC
+- `sched-20260825-003.json` — 06:00 UTC
+- `sched-20260825-004.json` — 09:00 UTC
+- `sched-20260825-005.json` — 12:00 UTC
+- `sched-20260825-006.json` — 15:00 UTC
+- `sched-20260825-007.json` — 18:00 UTC
+- `sched-20260825-008.json` — 21:00 UTC
+
+First snapshot: **2026-08-31**. The script is resumable and skips any
 `(hour, slug, provider)` triples already recorded for the day.
 
 ## Adding or removing providers
