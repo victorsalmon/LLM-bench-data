@@ -1,0 +1,93 @@
+# Weekly Speed Consistency Benchmark
+
+This directory holds the configuration and time-of-day CSVs for the weekly
+LLM speed benchmark.
+
+## Purpose
+
+Measure tokens/second for a small, fixed coding task every hour for 24 hours,
+once per week. The goal is **consistency**: detecting which endpoints slow down
+at which times, not producing a perfect absolute speed number.
+
+## Files
+
+- `models.json` — editable list of models to benchmark. Add or remove slugs
+  each week.
+- `speed-weekly-YYYY-MM-DD.csv` — one row per (hour, model) call.
+
+## CSV Schema
+
+| Column | Description |
+|--------|-------------|
+| `run_date` | UTC date the run started |
+| `hour_pst` | Hour in America/Los_Angeles time (00–23) |
+| `hour_utc` | Hour in UTC (00–23) |
+| `slug` | Canonical `models.json` slug |
+| `model_id` | Provider model ID used for the call |
+| `model_name` | Human-readable name |
+| `tier` | Price tier |
+| `max_tokens` | `max_tokens` setting |
+| `prompt_tokens` | Input tokens charged |
+| `output_tokens` | Completion tokens generated |
+| `elapsed_ms` | Wall-clock milliseconds |
+| `tokens_per_sec` | `output_tokens / (elapsed_ms / 1000)` |
+| `cost` | USD cost of the call |
+| `status` | `success` or `error` |
+| `error` | Error message if `status == error` |
+| `measured_at` | ISO timestamp |
+
+## Running manually
+
+```powershell
+# 24-hour run starting at the next hour boundary
+uv run python scripts/speed-weekly.py
+
+# Single hourly round (for cron/Tempo schedules)
+uv run python scripts/speed-weekly.py --rounds 1 --no-wait
+
+# Regenerate the default model list after updating models.json/catalogs
+uv run python scripts/speed-weekly.py --generate-config
+
+# Dry-run to see the model list and estimated cost
+uv run python scripts/speed-weekly.py --dry-run
+```
+
+## Prompt
+
+The default prompt asks the model to:
+1. Estimate the token count of a short Python snippet.
+2. Write a tiny module with `fibonacci`, `is_palindrome`, and `factorial_iterative`.
+3. Print the first 50 Fibonacci numbers.
+
+This produces a small, deterministic code output while still generating enough
+tokens for a meaningful speed reading.
+
+## Weekly Cost Estimate
+
+Prices are per-million-tokens. Actual spend depends on how much each model
+actually generates; the estimates below use 140 input tokens and assume an
+average of 250, 500 (the default `max_tokens`), or 750 output tokens.
+
+| Profile | Output | Calls/hour | 32 non-frontier models | 25 cheap models |
+|---------|--------|------------|------------------------|-----------------|
+| Consistency | 250 | 1 | ~$0.95/week | ~$0.43/week |
+| Consistency+ | 250 | 3 | ~$2.85/week | ~$1.28/week |
+| Default | 500 | 1 | ~$1.80/week | ~$0.80/week |
+| Default+ | 500 | 3 | ~$5.40/week | ~$2.39/week |
+| Accuracy | 750 | 1 | ~$2.65/week | ~$1.17/week |
+| Accuracy+ | 750 | 3 | ~$7.95/week | ~$3.50/week |
+
+The default schedule runs **1 call per hour for 24 hours at 500 `max_tokens`**,
+which costs about $1.80/week for the full 32-model non-frontier set.
+
+## Scheduling
+
+A Tempo schedule in `salmon-orchestrator/Tasks/Schedule/` dispatches the
+benchmark every Monday, hourly, for 24 hours. Each hour it runs:
+
+```powershell
+uv run python scripts/speed-weekly.py --rounds 1 --no-wait
+```
+
+The schedule is cron `0 * * * 1` (top of every hour on Mondays). The script is
+resumable and skips any `(hour, model)` pairs already recorded for the day.
