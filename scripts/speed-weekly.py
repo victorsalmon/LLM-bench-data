@@ -1,9 +1,10 @@
 """Weekly speed consistency benchmark for non-frontier coding/agentic LLMs.
 
 Runs a small tokenization + coding challenge against a configurable model list
-once per hour for a configurable number of rounds (default 24). Writes a
-resumable time-of-day CSV. Supports multi-provider benchmarking (OpenRouter,
-DeepInfra, Alibaba/OpenCode) so provider speed/cost can be compared.
+for a configurable number of rounds. The default schedule fires once every 3
+hours for 24 hours (8 rounds per week). Writes a resumable time-of-day CSV.
+Supports multi-provider benchmarking (OpenRouter, DeepInfra, OpenCode/Alibaba)
+so provider speed/cost can be compared.
 
 Designed to be invoked:
 
@@ -59,6 +60,12 @@ MODELS_JSON_PATH = REPO_ROOT / "models.json"
 DEFAULT_CONFIG_PATH = REPO_ROOT / "data" / "speed-weekly" / "models.json"
 DEFAULT_OUTPUT_DIR = REPO_ROOT / "data" / "speed-weekly"
 DEFAULT_PROVIDERS = ["openrouter", "deepinfra", "alibaba"]
+# Slug -> set of providers to skip when generating the default weekly config.
+# This is a short-term override so a model remains in the catalog but is not
+# benchmarked on a particular provider right now.
+DEFAULT_PROVIDER_EXCLUSIONS: dict[str, set[str]] = {
+    "deepseek-v4-flash": {"alibaba"},
+}
 PROVIDER_CLIENTS = {
     "openrouter": OpenRouterClient,
     "deepinfra": DeepInfraClient,
@@ -214,6 +221,8 @@ def build_default_config(output_path: Path) -> list[dict[str, Any]]:
 
         providers: dict[str, dict[str, Any]] = {}
         for provider in DEFAULT_PROVIDERS:
+            if provider in DEFAULT_PROVIDER_EXCLUSIONS.get(catalog_model.slug, set()):
+                continue
             if not _has_provider_id(catalog_model, provider):
                 continue
             in_price, out_price = _provider_price(provider, catalog_model, mjson_model)
@@ -524,9 +533,10 @@ def main(argv: list[str] | None = None) -> int:
         provider_counts = {p: sum(1 for m in models if p in m.get("providers", {})) for p in DEFAULT_PROVIDERS}
         print(f"Wrote {len(models)} models ({sum(provider_counts.values())} model/provider pairs) to {args.models}")
         for out_tok, label in ((250, "consistency"), (500, "default"), (750, "accuracy")):
-            for mult, mult_label in ((1, "1x"), (3, "3x")):
-                cost = estimate_cost(models, 140, out_tok, 24 * mult)
-                print(f"  {mult_label}/hour, ~{out_tok} output tokens ({label}): ${cost:.2f}/week")
+            # 24 rounds = hourly for 24h; 8 rounds = every 3h for 24h
+            cost_8 = estimate_cost(models, 140, out_tok, 8)
+            cost_24 = estimate_cost(models, 140, out_tok, 24)
+            print(f"  ~{out_tok} output tokens ({label}): 8 rounds ${cost_8:.2f}/week, 24 rounds ${cost_24:.2f}/week")
         return 0
 
     if not args.models.exists():

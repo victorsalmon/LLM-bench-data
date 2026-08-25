@@ -74,12 +74,6 @@
           "in_price": 0.09,
           "out_price": 0.18,
           "label": "deepinfra"
-        },
-        "alibaba": {
-          "model_id": "deepseek-v4-flash",
-          "in_price": 0.14,
-          "out_price": 0.28,
-          "label": "opencode"
         }
       },
       "swe_bench_pro": 49.6,
