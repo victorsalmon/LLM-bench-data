@@ -9,17 +9,26 @@ models:
   license: MIT
   zen_available: true
   pricing_source: zen
-  pricing:
-    zen:
-      input: 0.14
-      output: 0.28
-      cached_read: 0.028
   features: Multi-Token Prediction, MoE 284B/13B, Deep EP optimization, 1M context
   specialty: Cost-sensitive daily coding, general-purpose agent work
   strategy_note: Your daily driver on Zen. Best value in the market. No reason to
     switch within tier.
   openrouter_id: deepseek/deepseek-v4-flash
   alibaba_id: deepseek-v4-flash
+  deepinfra_id: deepseek-ai/DeepSeek-V4-Flash
+  pricing:
+    openrouter:
+      input: 0.0679
+      output: 0.168
+      cached_read: 0.0168
+    zen:
+      input: 0.14
+      output: 0.28
+      cached_read: 0.028
+    deepinfra:
+      input: 0.09
+      output: 0.18
+      cached_read: 0.018
   max_variants:
   - slug: deepseek-v4-flash-max
     suffix: max
