@@ -92,9 +92,11 @@ about **~$14.49/year** (~$0.28/week on average).
 
 ## Scheduling
 
-A Tempo schedule in `salmon-orchestrator/Tasks/Schedule/` dispatches the
-benchmark with **8 schedule files**, one per 3-hour slot, each repeating every
-8 days. This makes the 24-hour snapshot drift through the weekdays
+The benchmark is triggered by a Windows Scheduled Task named
+`ClockLobster-Speed-Weekly`, created with
+`scripts/install-speed-weekly-scheduled-task.ps1`. It has **eight daily
+triggers** (00:00, 03:00, 06:00, 09:00, 12:00, 15:00, 18:00, 21:00 UTC), each
+repeating every **8 days**, so the 24-hour snapshot drifts through the weekdays
 (Monday → Tuesday → Wednesday …). Each run is a single round at 250
 `max_tokens`:
 
@@ -102,21 +104,9 @@ benchmark with **8 schedule files**, one per 3-hour slot, each repeating every
 uv run python scripts/speed-weekly.py --rounds 1 --no-wait --max-tokens 250
 ```
 
-An OS-native Windows Task Scheduler alternative is available at
-`scripts/install-speed-weekly-scheduled-task.ps1`. If you use it, delete the
-`salmon-orchestrator/Tasks/Schedule/sched-20260825-*.json` files so the Tempo
-poller does not also trigger the benchmark.
-
-The schedule files are:
-
-- `sched-20260825-001.json` — 00:00 UTC
-- `sched-20260825-002.json` — 03:00 UTC
-- `sched-20260825-003.json` — 06:00 UTC
-- `sched-20260825-004.json` — 09:00 UTC
-- `sched-20260825-005.json` — 12:00 UTC
-- `sched-20260825-006.json` — 15:00 UTC
-- `sched-20260825-007.json` — 18:00 UTC
-- `sched-20260825-008.json` — 21:00 UTC
+This replaces the previous Tempo/`is-tempo` Docker trigger. The old
+`salmon-orchestrator/Tasks/Schedule/sched-20260825-*.json` files have been
+removed so they do not also trigger the benchmark.
 
 First snapshot: **2026-08-31**. The script is resumable and skips any
 `(hour, slug, provider)` triples already recorded for the day.

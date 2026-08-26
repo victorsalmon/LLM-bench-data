@@ -1,4 +1,3 @@
-#Requires -RunAsAdministrator
 <#
 .SYNOPSIS
     Installs a Windows Scheduled Task that runs the LLM speed benchmark
@@ -10,9 +9,9 @@
     (repeating every 8 days at 00:00, 03:00, 06:00, 09:00, 12:00, 15:00,
     18:00, 21:00 UTC) and a single action that runs one round.
 
-    Run this script from an Administrator PowerShell 7 session. If you prefer
-    the task to run as a different user, edit the -Principal line before
-    running, or use Task Scheduler's UI after creation.
+    If the script is run from an Administrator PowerShell, the task runs as
+    SYSTEM and works whether or not anyone is logged on. If not, it runs as
+    the current user and only when the user is logged on.
 #>
 
 $ErrorActionPreference = "Stop"
@@ -45,7 +44,18 @@ $settings = New-ScheduledTaskSettingsSet `
     -StartWhenAvailable `
     -RunOnlyIfNetworkAvailable
 
-$principal = New-ScheduledTaskPrincipal -UserId "NT AUTHORITY\SYSTEM" -LogonType ServiceAccount -RunLevel Highest
+$currentIdentity = [Security.Principal.WindowsIdentity]::GetCurrent()
+$currentPrincipal = New-Object Security.Principal.WindowsPrincipal($currentIdentity)
+$isAdmin = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+
+if ($isAdmin) {
+    $principal = New-ScheduledTaskPrincipal -UserId "NT AUTHORITY\SYSTEM" -LogonType ServiceAccount -RunLevel Highest
+    $logonNote = "running as SYSTEM"
+} else {
+    $userId = "$env:USERDOMAIN\$env:USERNAME"
+    $principal = New-ScheduledTaskPrincipal -UserId $userId -LogonType Interactive
+    $logonNote = "running as $userId (interactive logon only)"
+}
 
 $task = New-ScheduledTask `
     -Action $action `
@@ -54,7 +64,8 @@ $task = New-ScheduledTask `
     -Description "Clock Lobster weekly LLM speed benchmark: 8 rounds/day, 250 tokens, every 8 days" `
     -Principal $principal
 
-Register-ScheduledTask -InputObject $task -TaskName "ClockLobster-Speed-Weekly" -Force
+Register-ScheduledTask -InputObject $task -TaskName "ClockLobster-Speed-Weekly" -Force | Out-Null
 
-Write-Host "Scheduled task 'ClockLobster-Speed-Weekly' installed with $($triggers.Count) triggers."
-Write-Host "First snapshot starts at $base UTC and repeats every 8 days."
+Write-Host "Scheduled task 'ClockLobster-Speed-Weekly' installed."
+Write-Host "Task has $($triggers.Count) triggers, first snapshot starts at $base UTC, repeats every 8 days."
+Write-Host "The task is configured as: $logonNote."
