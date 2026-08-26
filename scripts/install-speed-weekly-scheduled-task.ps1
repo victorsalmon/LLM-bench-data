@@ -32,7 +32,7 @@ $action = New-ScheduledTaskAction `
     -Argument "run python `"$scriptPath`" --rounds 1 --no-wait --max-tokens 250 --resume" `
     -WorkingDirectory $repoDir
 
-$base = Get-Date -Year 2026 -Month 8 -Day 31 -Hour 0 -Minute 0 -Second 0 -Millisecond 0
+$base = [DateTime]::new(2026, 8, 31, 0, 0, 0, [DateTimeKind]::Utc)
 $triggers = @(0, 3, 6, 9, 12, 15, 18, 21) | ForEach-Object {
     $at = $base.AddHours($_)
     New-ScheduledTaskTrigger -Daily -DaysInterval 8 -At $at
