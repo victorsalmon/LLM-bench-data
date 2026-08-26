@@ -4,10 +4,10 @@ import httpx
 import pytest
 import respx
 
-from llm_cost_comparison.clients.openrouter import OpenRouterClient
-from llm_cost_comparison.core.config import Settings
-from llm_cost_comparison.core.exceptions import APIError, ModelNotFoundError, TimeoutError
-from llm_cost_comparison.core.models import ChatRequest, Message
+from llm_bench_data.clients.openrouter import OpenRouterClient
+from llm_bench_data.core.config import Settings
+from llm_bench_data.core.exceptions import APIError, ModelNotFoundError, TimeoutError
+from llm_bench_data.core.models import ChatRequest, Message
 
 
 def _success_payload(prompt_tokens: int = 10, completion_tokens: int = 5) -> dict:

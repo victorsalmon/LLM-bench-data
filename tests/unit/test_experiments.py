@@ -2,18 +2,18 @@
 
 from decimal import Decimal
 
-from llm_cost_comparison.clients.base import LLMClient
-from llm_cost_comparison.core.catalog import load_catalog
-from llm_cost_comparison.core.models import (
+from llm_bench_data.clients.base import LLMClient
+from llm_bench_data.core.catalog import load_catalog
+from llm_bench_data.core.models import (
     ChatRequest,
     ChatResponse,
     ExperimentConfig,
     ExperimentParams,
     ProviderPricing,
 )
-from llm_cost_comparison.experiments import create_runner
-from llm_cost_comparison.storage.repository import MeasurementRepository
-from llm_cost_comparison.storage.session import get_engine, init_db
+from llm_bench_data.experiments import create_runner
+from llm_bench_data.storage.repository import MeasurementRepository
+from llm_bench_data.storage.session import get_engine, init_db
 
 
 class FakeClient(LLMClient):

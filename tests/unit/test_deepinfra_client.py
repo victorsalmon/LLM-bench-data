@@ -2,8 +2,8 @@
 
 import respx
 
-from llm_cost_comparison.clients.deepinfra import DeepInfraClient
-from llm_cost_comparison.core.models import ChatRequest, Message
+from llm_bench_data.clients.deepinfra import DeepInfraClient
+from llm_bench_data.core.models import ChatRequest, Message
 
 
 def test_chat_uses_deepinfra_endpoint(settings, monkeypatch) -> None:

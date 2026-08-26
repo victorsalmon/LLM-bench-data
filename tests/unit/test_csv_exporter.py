@@ -5,8 +5,8 @@ from typing import Any
 
 import pytest
 
-from llm_cost_comparison.exporters.csv import CSVExporter
-from llm_cost_comparison.storage.models import Measurement
+from llm_bench_data.exporters.csv import CSVExporter
+from llm_bench_data.storage.models import Measurement
 
 
 def _measurement() -> Measurement:

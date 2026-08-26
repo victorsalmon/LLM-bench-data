@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from llm_cost_comparison.core.config import Settings
+from llm_bench_data.core.config import Settings
 
 
 def test_settings_load_from_env(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:

@@ -199,7 +199,7 @@ The comparison set (the models the new model is measured *against*) is **not** r
 
 5. **Build the comparison table** — one row for the new model plus one row per model in `appraise_slots.active_stack` (your daily drivers) and `appraise_slots.watching` (flagships you track). Every value except the new model's measured ones is read from `models.json`. Columns match the **Appraisal Table Template** above: SWE-bench Pro, TB 2.1, Input/Output $/M, Blend 7:2:1, Blend w/ Think, AAII, Thinking Tax, "Beats your stack?". For the new model, compute both blend columns using its freshly-measured `thinking_token_ratio` and `tokenizer_efficiency`.
 
-6. **Write the News post** — create `clocklobster-site/blog/news/<YYYY-MM-DD>-<slug>/` containing `index.md` (source) and `index.html` (rendered standalone page). **Clone the shared chrome** from `clocklobster-site/blog/_base-template/post-base.{html,md}` and **apply the News skin deltas** from `clocklobster-site/blog/_skins/article-news.md` (section label `News`, active nav on the News `<li>`, the Appraise-Model body structure). Depth-3 page → assets at `../../../`. See `blog/_base-template/README.md` for the full placeholder index and depth rule. Header block convention (no YAML): `**Series:** News — Model Appraisal`, `**Published:** YYYY-MM-DD`, `**Dataset:** github.com/ClockLobsterLabs/LLM-Cost-Comparison`, `**Author:** <byline>`. Body: verdict up front, the comparison table (as `class="sortable"`), the measured numbers, cost analysis, and a clear recommendation. Then **append a card** to `clocklobster-site/blog/news/index.html` linking the new post.
+6. **Write the News post** — create `clocklobster-site/blog/news/<YYYY-MM-DD>-<slug>/` containing `index.md` (source) and `index.html` (rendered standalone page). **Clone the shared chrome** from `clocklobster-site/blog/_base-template/post-base.{html,md}` and **apply the News skin deltas** from `clocklobster-site/blog/_skins/article-news.md` (section label `News`, active nav on the News `<li>`, the Appraise-Model body structure). Depth-3 page → assets at `../../../`. See `blog/_base-template/README.md` for the full placeholder index and depth rule. Header block convention (no YAML): `**Series:** News — Model Appraisal`, `**Published:** YYYY-MM-DD`, `**Dataset:** github.com/victorsalmon/LLM-bench-data`, `**Author:** <byline>`. Body: verdict up front, the comparison table (as `class="sortable"`), the measured numbers, cost analysis, and a clear recommendation. Then **append a card** to `clocklobster-site/blog/news/index.html` linking the new post.
 
 7. **Commit + push data repo** — `git add data/appraise/<slug>-<date>.csv models.json` (plus any SKILL.md/AGENTS.md changes) → `git commit -m "feat(data): appraise <ModelName> — tokenizer, thinking, speed, SWE"` → `git push origin main`.
 
@@ -208,7 +208,7 @@ The comparison set (the models the new model is measured *against*) is **not** r
 ### Cross-repo layout
 
 Both repos live under `C:\Repos\`, siblings:
-- This repo: `C:\Repos\LLM-Cost-Comparison` → `github.com/ClockLobsterLabs/LLM-Cost-Comparison`
+- This repo: `C:\Repos\LLM-Bench-Data` → `github.com/victorsalmon/LLM-bench-data`
 - The site: `C:\Repos\clocklobster-site` → `github.com/victorsalmon/clocklobster-site`
 
 From this repo root the site is at `../clocklobster-site` (one level up, across). The site's `AGENTS.md` documents the reverse path and mandates auto-commit/push to `main`; this repo's `AGENTS.md` does the same.

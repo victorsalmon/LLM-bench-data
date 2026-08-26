@@ -4,7 +4,7 @@ from decimal import Decimal
 
 import pytest
 
-from llm_cost_comparison.calculations.compression import CompressionCalculator
+from llm_bench_data.calculations.compression import CompressionCalculator
 
 
 def test_compression_ratio_positive() -> None:

@@ -2,8 +2,8 @@
 
 from decimal import Decimal
 
-from llm_cost_comparison.calculations.cost import CostCalculator
-from llm_cost_comparison.core.models import ProviderPricing
+from llm_bench_data.calculations.cost import CostCalculator
+from llm_bench_data.core.models import ProviderPricing
 
 
 def test_compute_per_call_cost() -> None:

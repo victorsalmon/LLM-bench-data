@@ -5,10 +5,10 @@ import pytest
 import respx
 from typer.testing import CliRunner
 
-from llm_cost_comparison.cli.main import app
-from llm_cost_comparison.storage.models import Measurement
-from llm_cost_comparison.storage.repository import MeasurementRepository
-from llm_cost_comparison.storage.session import get_engine, init_db
+from llm_bench_data.cli.main import app
+from llm_bench_data.storage.models import Measurement
+from llm_bench_data.storage.repository import MeasurementRepository
+from llm_bench_data.storage.session import get_engine, init_db
 
 runner = CliRunner()
 

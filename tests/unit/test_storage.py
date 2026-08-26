@@ -5,9 +5,9 @@ from pathlib import Path
 
 from sqlalchemy.exc import OperationalError
 
-from llm_cost_comparison.storage.models import Measurement, PricingSnapshot
-from llm_cost_comparison.storage.repository import MeasurementRepository
-from llm_cost_comparison.storage.session import get_engine, init_db
+from llm_bench_data.storage.models import Measurement, PricingSnapshot
+from llm_bench_data.storage.repository import MeasurementRepository
+from llm_bench_data.storage.session import get_engine, init_db
 
 
 def test_create_and_query_measurements() -> None:

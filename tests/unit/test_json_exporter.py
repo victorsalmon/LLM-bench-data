@@ -6,9 +6,9 @@ from typing import Any
 
 import pytest
 
-from llm_cost_comparison.calculations.compression import CompressionCalculator
-from llm_cost_comparison.exporters.json import BenchmarkExporter
-from llm_cost_comparison.storage.models import Measurement
+from llm_bench_data.calculations.compression import CompressionCalculator
+from llm_bench_data.exporters.json import BenchmarkExporter
+from llm_bench_data.storage.models import Measurement
 
 
 def test_benchmark_exporter_aggregates_tokenizer_and_speed(tmp_path: object) -> None:

@@ -60,7 +60,7 @@ SCHEMAS = {
     },
 }
 
-# Corruption-signature thresholds — mirror llm_cost_comparison/validation/legacy.py
+# Corruption-signature thresholds — mirror llm_bench_data/validation/legacy.py
 # (find_constant_prompt_tokens: min_group_size=3, len(distinct)<=1). The commit
 # gate (commit-data.sh) and `llmcc validate` must agree on the signature; if you
 # change these, change BOTH files.

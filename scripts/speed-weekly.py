@@ -32,11 +32,11 @@ from zoneinfo import ZoneInfo
 
 import yaml
 
-from llm_cost_comparison.clients.alibaba import AlibabaClient
-from llm_cost_comparison.clients.deepinfra import DeepInfraClient
-from llm_cost_comparison.clients.openrouter import OpenRouterClient
-from llm_cost_comparison.core.config import Settings
-from llm_cost_comparison.core.models import ChatRequest, Message, Model, ProviderPricing
+from llm_bench_data.clients.alibaba import AlibabaClient
+from llm_bench_data.clients.deepinfra import DeepInfraClient
+from llm_bench_data.clients.openrouter import OpenRouterClient
+from llm_bench_data.core.config import Settings
+from llm_bench_data.core.models import ChatRequest, Message, Model, ProviderPricing
 
 
 DEFAULT_PROMPT = """A code tokenizer splits this Python snippet into tokens:

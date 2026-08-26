@@ -2,8 +2,8 @@
 
 import respx
 
-from llm_cost_comparison.clients.alibaba import AlibabaClient
-from llm_cost_comparison.core.models import ChatRequest, Message
+from llm_bench_data.clients.alibaba import AlibabaClient
+from llm_bench_data.core.models import ChatRequest, Message
 
 
 def test_chat_uses_alibaba_workspace_endpoint(settings, monkeypatch) -> None:

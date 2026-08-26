@@ -1,6 +1,6 @@
 # AGENTS.md — Context for AI Assistants
 
-## Project: Clock Lobster Labs — LLM-Cost-Comparison
+## Project: Clock Lobster Labs — LLM-bench-data
 
 This file tells any AI assistant (human or automated) what it needs to know before working in this repo.
 
@@ -10,7 +10,7 @@ This file tells any AI assistant (human or automated) what it needs to know befo
 
 The benchmark **data + scripts backend** for Clock Lobster Labs. Tokenizer efficiency, output verbosity, compression, token speed, and per-model appraisal measurements for the LLMs the user evaluates. Results land in CSVs here and are summarized into `models.json` (the canonical model database), which the sibling website's Benchmarks sub-blog reads from.
 
-- **GitHub:** `github.com/ClockLobsterLabs/LLM-Cost-Comparison`
+- **GitHub:** `github.com/victorsalmon/LLM-bench-data`
 - **Skill:** `SKILL.md` defines the `research/appraise-llm` skill (market-wide research + per-model appraisal pipeline).
 - **Canonical data:** `models.json` (pricing, benchmarks, features, the `appraise_slots` watch list).
 
@@ -56,7 +56,7 @@ Conventional Commits. Observed scopes: `feat(data):`, `feat(appraise):`, `fix(mo
 
 Two repos live as siblings under `C:\Repos\`:
 
-- **This repo** (data + scripts): `C:\Repos\LLM-Cost-Comparison`
+- **This repo** (data + scripts): `C:\Repos\LLM-Bench-Data`
 - **The website** (static, dotCanada/LiteSpeed): `C:\Repos\clocklobster.com` → `worktree.ca/clocklobster/clocklobster.com`
 
 From this repo root the site is at `../clocklobster-site`. Sibling repos are flat under `C:\Repos\`. The per-model appraisal pipeline writes a **News** post into the site repo's `blog/news/` and commits/pushes both repos. The site's `AGENTS.md` documents the reverse path.

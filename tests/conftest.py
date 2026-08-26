@@ -2,7 +2,7 @@
 
 import pytest
 
-from llm_cost_comparison.core.config import Settings
+from llm_bench_data.core.config import Settings
 
 
 @pytest.fixture

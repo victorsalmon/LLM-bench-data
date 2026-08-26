@@ -4,7 +4,7 @@ from decimal import Decimal
 
 import pytest
 
-from llm_cost_comparison.calculations.efficiency import EfficiencyCalculator
+from llm_bench_data.calculations.efficiency import EfficiencyCalculator
 
 
 def test_tokens_per_word() -> None:

@@ -4,8 +4,8 @@ from decimal import Decimal
 
 import respx
 
-from llm_cost_comparison.clients.pricing import PricingService
-from llm_cost_comparison.core.config import Settings
+from llm_bench_data.clients.pricing import PricingService
+from llm_bench_data.core.config import Settings
 
 
 def _models_payload() -> dict:

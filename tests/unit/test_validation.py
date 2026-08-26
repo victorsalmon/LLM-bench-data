@@ -7,15 +7,15 @@ import sys
 from decimal import Decimal
 from pathlib import Path
 
-from llm_cost_comparison.core.models import ChatResponse
-from llm_cost_comparison.storage.models import Measurement
-from llm_cost_comparison.validation.legacy import (
+from llm_bench_data.core.models import ChatResponse
+from llm_bench_data.storage.models import Measurement
+from llm_bench_data.validation.legacy import (
     find_constant_prompt_tokens,
     find_empty_required_values,
     find_task_id_leaking_method_names,
     validate_csv_signature,
 )
-from llm_cost_comparison.validation.validators import MeasurementValidator, ResponseValidator
+from llm_bench_data.validation.validators import MeasurementValidator, ResponseValidator
 
 
 def test_valid_measurement() -> None:

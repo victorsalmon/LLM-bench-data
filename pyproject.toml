@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "llm-cost-comparison"
+name = "llm-bench-data"
 version = "2.0.0"
 description = "A reproducible, testable benchmark pipeline for comparing LLM cost, speed, and tokenizer efficiency."
 readme = "README.md"
@@ -52,14 +52,14 @@ test = [
 ]
 
 [project.scripts]
-llmcc = "llm_cost_comparison.cli.main:main"
+llmcc = "llm_bench_data.cli.main:main"
 
 [project.urls]
-Homepage = "https://github.com/ClockLobsterLabs/LLM-Cost-Comparison"
-Repository = "https://github.com/ClockLobsterLabs/LLM-Cost-Comparison"
+Homepage = "https://github.com/victorsalmon/LLM-bench-data"
+Repository = "https://github.com/victorsalmon/LLM-bench-data"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/llm_cost_comparison"]
+packages = ["src/llm_bench_data"]
 
 [tool.ruff]
 target-version = "py312"
@@ -83,9 +83,9 @@ convention = "google"
 
 [tool.ruff.lint.per-file-ignores]
 "tests/**/*.py" = ["D", "S", "ARG"]
-"src/llm_cost_comparison/core/models.py" = ["TC003"]
-"src/llm_cost_comparison/storage/models.py" = ["TC003"]
-"src/llm_cost_comparison/cli/main.py" = ["B008", "TC003"]
+"src/llm_bench_data/core/models.py" = ["TC003"]
+"src/llm_bench_data/storage/models.py" = ["TC003"]
+"src/llm_bench_data/cli/main.py" = ["B008", "TC003"]
 
 [tool.mypy]
 python_version = "3.12"
@@ -103,7 +103,7 @@ warn_required_dynamic_aliases = true
 [tool.pytest.ini_options]
 minversion = "8.0"
 testpaths = ["tests"]
-addopts = "--strict-markers --strict-config --cov=llm_cost_comparison --cov-report=term-missing --cov-report=xml"
+addopts = "--strict-markers --strict-config --cov=llm_bench_data --cov-report=term-missing --cov-report=xml"
 markers = [
     "slow: marks tests as slow (deselect with '-m \"not slow\"')",
     "integration: marks tests that hit the network",

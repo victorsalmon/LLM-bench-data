@@ -12,7 +12,7 @@ This document describes the modular Python redesign of the LLM Cost Comparison p
 ## Package layout
 
 ```
-src/llm_cost_comparison/
+src/llm_bench_data/
 ├── cli/           # Typer CLI (run, appraise, validate, export, migrate-legacy)
 ├── clients/       # LLMClient base, OpenRouterClient with retries, PricingService
 ├── core/          # Pydantic domain models, YAML catalog loader, Settings, exceptions

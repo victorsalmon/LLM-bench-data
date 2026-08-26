@@ -3,8 +3,8 @@ from pathlib import Path
 
 import pytest
 
-from llm_cost_comparison.core.catalog import load_catalog
-from llm_cost_comparison.core.exceptions import CatalogError
+from llm_bench_data.core.catalog import load_catalog
+from llm_bench_data.core.exceptions import CatalogError
 
 
 def test_load_catalog_from_repo_root(tmp_path: Path) -> None:
