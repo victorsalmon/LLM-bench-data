@@ -477,8 +477,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--max-tokens",
         type=int,
-        default=500,
-        help="Maximum completion tokens per call (default: 500).",
+        default=250,
+        help="Maximum completion tokens per call (default: 250).",
     )
     parser.add_argument(
         "--rounds",

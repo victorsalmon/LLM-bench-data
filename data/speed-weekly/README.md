@@ -49,7 +49,7 @@ is currently configured for OpenRouter and DeepInfra.
 uv run python scripts/speed-weekly.py
 
 # Single round (for cron/Tempo schedules that fire every 3 hours)
-uv run python scripts/speed-weekly.py --rounds 1 --no-wait
+uv run python scripts/speed-weekly.py --rounds 1 --no-wait --max-tokens 250
 
 # Regenerate the default model list after updating models.json/catalogs
 uv run python scripts/speed-weekly.py --generate-config
@@ -87,19 +87,25 @@ which providers are available. Estimates use 140 input tokens.
 | Default | 500 | **~$0.60/snapshot** | **~$0.27/snapshot** |
 | Accuracy | 750 | ~$0.89/snapshot | ~$0.39/snapshot |
 
-At one snapshot every 8 days, the full 32-model set at 500 `max_tokens` costs
-about **~$27.44/year** (~$0.53/week on average).
+At one snapshot every 8 days, the full 32-model set at 250 `max_tokens` costs
+about **~$14.49/year** (~$0.28/week on average).
 
 ## Scheduling
 
 A Tempo schedule in `salmon-orchestrator/Tasks/Schedule/` dispatches the
 benchmark with **8 schedule files**, one per 3-hour slot, each repeating every
 8 days. This makes the 24-hour snapshot drift through the weekdays
-(Monday → Tuesday → Wednesday …). Each run is a single round:
+(Monday → Tuesday → Wednesday …). Each run is a single round at 250
+`max_tokens`:
 
 ```powershell
-uv run python scripts/speed-weekly.py --rounds 1 --no-wait
+uv run python scripts/speed-weekly.py --rounds 1 --no-wait --max-tokens 250
 ```
+
+An OS-native Windows Task Scheduler alternative is available at
+`scripts/install-speed-weekly-scheduled-task.ps1`. If you use it, delete the
+`salmon-orchestrator/Tasks/Schedule/sched-20260825-*.json` files so the Tempo
+poller does not also trigger the benchmark.
 
 The schedule files are:
 
