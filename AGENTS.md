@@ -59,7 +59,7 @@ Two repos live as siblings under `C:\Repos\`:
 - **This repo** (data + scripts): `C:\Repos\LLM-Bench-Data`
 - **The website** (static, dotCanada/LiteSpeed): `C:\Repos\clocklobster.com` → `worktree.ca/clocklobster/clocklobster.com`
 
-From this repo root the site is at `../clocklobster-site`. Sibling repos are flat under `C:\Repos\`. The per-model appraisal pipeline writes a **News** post into the site repo's `blog/news/` and commits/pushes both repos. The site's `AGENTS.md` documents the reverse path.
+From this repo root the site is at `../clocklobster.com`. Sibling repos are flat under `C:\Repos\`. The per-model appraisal pipeline writes a **News** post into the site repo's `blog/news/` and commits/pushes both repos. The site's `AGENTS.md` documents the reverse path.
 
 ---
 
