@@ -61,6 +61,8 @@ Two repos live as siblings under `C:\Repos\`:
 
 From this repo root the site is at `../clocklobster.com`. Sibling repos are flat under `C:\Repos\`. The per-model appraisal pipeline writes a **News** post into the site repo's `blog/news/` and commits/pushes both repos. The site's `AGENTS.md` documents the reverse path.
 
+Fleet watcher safety (cwd mandate, test staggering — hard block): `C:\Repos\saas-modules\docs\agent-watcher-safety.md`.
+
 ---
 
 ## Mandatory Completion Protocol
