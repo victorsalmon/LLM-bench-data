@@ -1,6 +1,5 @@
 """Tests for validators and legacy CSV corruption checks."""
 
-
 import csv
 import subprocess
 import sys
@@ -113,6 +112,7 @@ def test_validate_csv_signature_integration() -> None:
     assert any("task_id contains method" in e for e in errors)
     assert any("empty 'category'" in w for w in warnings)
 
+
 def test_response_validator_rejects_negative_tokens() -> None:
     """A ChatResponse with negative token counts is flagged."""
     response = ChatResponse(
@@ -149,6 +149,8 @@ def test_response_validator_accepts_valid_response() -> None:
         elapsed_ms=100,
     )
     assert ResponseValidator.validate(response) == []
+
+
 def test_measurement_multiple_violations_reported() -> None:
     """A row with several simultaneous violations reports all of them."""
     measurement = Measurement(
@@ -209,11 +211,15 @@ def test_validate_data_py_and_llmcc_validate_agree(tmp_path: Path) -> None:
 
     corrupt_script = subprocess.run(
         [sys.executable, "scripts/validate-data.py", str(corrupt_path)],
-        cwd=repo_root, capture_output=True, text=True,
+        cwd=repo_root,
+        capture_output=True,
+        text=True,
     )
     clean_script = subprocess.run(
         [sys.executable, "scripts/validate-data.py", str(clean_path)],
-        cwd=repo_root, capture_output=True, text=True,
+        cwd=repo_root,
+        capture_output=True,
+        text=True,
     )
 
     corrupt_legacy = validate_csv_signature(corrupt_rows, variance_groups=("model_id", "method_id"))

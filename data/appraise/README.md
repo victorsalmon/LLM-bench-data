@@ -1,7 +1,7 @@
 # data/appraise/
 
 Per-model appraisal raw data. One CSV per appraisal, written by
-`scripts/appraise-model.ps1`, named `<slug>-<YYYY-MM-DD>.csv`.
+`uv run llmcc appraise <slug>`, named `<slug>-<YYYY-MM-DD>.csv`.
 
 This is distinct from the batch session CSVs in `../` (Session 5 / 6 / 6b) and
 `../output-experiment/` — those are one-shot multi-model sweeps. This directory

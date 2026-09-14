@@ -61,9 +61,7 @@ def test_tokenizer_efficiency_experiment() -> None:
     runner, repo = _make_runner(custom)
 
     pricing = {
-        "deepseek/deepseek-v4-flash": ProviderPricing(
-            input=Decimal("0.14"), output=Decimal("0.28")
-        )
+        "deepseek/deepseek-v4-flash": ProviderPricing(input=Decimal("0.14"), output=Decimal("0.28"))
     }
     run = runner.run_experiment("test-tokenizer", pricing=pricing)
 
@@ -89,9 +87,7 @@ def test_output_verbosity_experiment() -> None:
     runner, repo = _make_runner(custom)
 
     pricing = {
-        "deepseek/deepseek-v4-flash": ProviderPricing(
-            input=Decimal("0.14"), output=Decimal("0.28")
-        )
+        "deepseek/deepseek-v4-flash": ProviderPricing(input=Decimal("0.14"), output=Decimal("0.28"))
     }
     run = runner.run_experiment("test-verbosity", pricing=pricing)
 
@@ -116,9 +112,7 @@ def test_compression_experiment() -> None:
     runner, repo = _make_runner(custom)
 
     pricing = {
-        "deepseek/deepseek-v4-flash": ProviderPricing(
-            input=Decimal("0.14"), output=Decimal("0.28")
-        )
+        "deepseek/deepseek-v4-flash": ProviderPricing(input=Decimal("0.14"), output=Decimal("0.28"))
     }
     run = runner.run_experiment("test-compression", pricing=pricing)
 
@@ -141,9 +135,7 @@ def test_speed_experiment() -> None:
     runner, repo = _make_runner(custom)
 
     pricing = {
-        "deepseek/deepseek-v4-flash": ProviderPricing(
-            input=Decimal("0.14"), output=Decimal("0.28")
-        )
+        "deepseek/deepseek-v4-flash": ProviderPricing(input=Decimal("0.14"), output=Decimal("0.28"))
     }
     run = runner.run_experiment("test-speed", pricing=pricing)
 
@@ -166,9 +158,7 @@ def test_appraisal_experiment() -> None:
     runner, repo = _make_runner(custom)
 
     pricing = {
-        "deepseek/deepseek-v4-flash": ProviderPricing(
-            input=Decimal("0.14"), output=Decimal("0.28")
-        )
+        "deepseek/deepseek-v4-flash": ProviderPricing(input=Decimal("0.14"), output=Decimal("0.28"))
     }
     run = runner.run_experiment("test-appraisal", pricing=pricing)
 

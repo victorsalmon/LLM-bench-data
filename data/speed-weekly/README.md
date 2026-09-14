@@ -104,9 +104,7 @@ repeating every **8 days**, so the 24-hour snapshot drifts through the weekdays
 uv run python scripts/speed-weekly.py --rounds 1 --no-wait --max-tokens 250
 ```
 
-This replaces the previous Tempo/`is-tempo` Docker trigger. The old
-`~/.salmon/Tasks/Schedule/sched-20260825-*.json` files have been
-removed so they do not also trigger the benchmark.
+This replaces the previous Tempo/`is-tempo` Docker trigger; the old fleet schedule entries have been removed so they do not also trigger the benchmark.
 
 First snapshot: **2026-08-31**. The script is resumable and skips any
 `(hour, slug, provider)` triples already recorded for the day.

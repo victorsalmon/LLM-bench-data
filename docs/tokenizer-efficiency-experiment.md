@@ -235,8 +235,7 @@ Raw data CSV: [`../data/experiment-session5-raw.csv`](../data/experiment-session
 Consolidated CSV: [`../data/experiment-session5-consolidated.csv`](../data/experiment-session5-consolidated.csv)
 Summary CSV: [`../data/experiment-session5-summary.csv`](../data/experiment-session5-summary.csv)
 Canonical sample texts: [`../data/samples/`](../data/samples/)
-Experiment runner: [`../experiment-runner.ps1`](../experiment-runner.ps1)
-User config template: [`../example-config.env`](../example-config.env)
+Experiment runner and config: the legacy PowerShell harness has been removed; use `uv run llmcc` and `.env.example`.
 
 Columns (raw):
 - `trial_id`: Unique identifier per call

@@ -75,20 +75,33 @@ def test_export_success_atomically_replaces_destination(tmp_path: Path) -> None:
     assert "models" in data
     assert not (tmp_path / "benchmarks.json.tmp").exists()
 
+
 def test_aggregate_verbosity_per_task(tmp_path: Path) -> None:
     """Verbosity measurements aggregate per task with token/word rollups."""
     measurements = [
         Measurement(
-            run_id=1, experiment_id="output-verbosity", model_slug="m1",
-            task_id="one-word", completion_tokens=10, output_words=3,
+            run_id=1,
+            experiment_id="output-verbosity",
+            model_slug="m1",
+            task_id="one-word",
+            completion_tokens=10,
+            output_words=3,
         ),
         Measurement(
-            run_id=1, experiment_id="output-verbosity", model_slug="m1",
-            task_id="one-word", completion_tokens=20, output_words=5,
+            run_id=1,
+            experiment_id="output-verbosity",
+            model_slug="m1",
+            task_id="one-word",
+            completion_tokens=20,
+            output_words=5,
         ),
         Measurement(
-            run_id=1, experiment_id="output-verbosity", model_slug="m1",
-            task_id="short-code", completion_tokens=30, output_words=6,
+            run_id=1,
+            experiment_id="output-verbosity",
+            model_slug="m1",
+            task_id="short-code",
+            completion_tokens=30,
+            output_words=6,
         ),
     ]
 
@@ -109,16 +122,28 @@ def test_aggregate_compression_ratios(tmp_path: Path) -> None:
     """Compression ratios are computed against the per-task baseline; baseless rows are excluded."""
     measurements = [
         Measurement(
-            run_id=1, experiment_id="compression", model_slug="m1",
-            task_id="t1", method_id="none", completion_tokens=100,
+            run_id=1,
+            experiment_id="compression",
+            model_slug="m1",
+            task_id="t1",
+            method_id="none",
+            completion_tokens=100,
         ),
         Measurement(
-            run_id=1, experiment_id="compression", model_slug="m1",
-            task_id="t1", method_id="smc", completion_tokens=40,
+            run_id=1,
+            experiment_id="compression",
+            model_slug="m1",
+            task_id="t1",
+            method_id="smc",
+            completion_tokens=40,
         ),
         Measurement(
-            run_id=1, experiment_id="compression", model_slug="m1",
-            task_id="t2", method_id="smc", completion_tokens=80,
+            run_id=1,
+            experiment_id="compression",
+            model_slug="m1",
+            task_id="t2",
+            method_id="smc",
+            completion_tokens=80,
         ),
     ]
 
@@ -135,12 +160,20 @@ def test_aggregate_thinking_ratio(tmp_path: Path) -> None:
     """Reasoning measurements yield a reasoning/completion ratio; non-reasoning yield 0.0."""
     measurements = [
         Measurement(
-            run_id=1, experiment_id="appraisal", model_slug="m1",
-            completion_tokens=200, reasoning_tokens=50, meta={"check": "reasoning"},
+            run_id=1,
+            experiment_id="appraisal",
+            model_slug="m1",
+            completion_tokens=200,
+            reasoning_tokens=50,
+            meta={"check": "reasoning"},
         ),
         Measurement(
-            run_id=1, experiment_id="appraisal", model_slug="m2",
-            completion_tokens=100, reasoning_tokens=0, meta={},
+            run_id=1,
+            experiment_id="appraisal",
+            model_slug="m2",
+            completion_tokens=100,
+            reasoning_tokens=0,
+            meta={},
         ),
     ]
 
@@ -156,16 +189,25 @@ def test_aggregate_speed_skips_missing_elapsed(tmp_path: Path) -> None:
     """Speed aggregates average tokens/sec and skip rows without elapsed_ms."""
     measurements = [
         Measurement(
-            run_id=1, experiment_id="speed", model_slug="m1",
-            completion_tokens=100, elapsed_ms=1000,
+            run_id=1,
+            experiment_id="speed",
+            model_slug="m1",
+            completion_tokens=100,
+            elapsed_ms=1000,
         ),
         Measurement(
-            run_id=1, experiment_id="speed", model_slug="m1",
-            completion_tokens=200, elapsed_ms=1000,
+            run_id=1,
+            experiment_id="speed",
+            model_slug="m1",
+            completion_tokens=200,
+            elapsed_ms=1000,
         ),
         Measurement(
-            run_id=1, experiment_id="speed", model_slug="m1",
-            completion_tokens=50, elapsed_ms=None,
+            run_id=1,
+            experiment_id="speed",
+            model_slug="m1",
+            completion_tokens=50,
+            elapsed_ms=None,
         ),
     ]
 

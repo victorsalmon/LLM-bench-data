@@ -14,9 +14,9 @@ class CompressionCalculator:
         """
         if baseline_tokens <= 0:
             raise ValueError("baseline_tokens must be positive")
-        return (
-            Decimal("1") - (Decimal(method_tokens) / Decimal(baseline_tokens))
-        ).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+        return (Decimal("1") - (Decimal(method_tokens) / Decimal(baseline_tokens))).quantize(
+            Decimal("0.01"), rounding=ROUND_HALF_UP
+        )
 
     @staticmethod
     def tokens_per_word(output_tokens: int, word_count: int) -> Decimal:

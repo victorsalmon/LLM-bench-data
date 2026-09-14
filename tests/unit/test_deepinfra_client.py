@@ -10,9 +10,7 @@ def test_chat_uses_deepinfra_endpoint(settings, monkeypatch) -> None:
     """DeepInfra uses its own base URL and bearer token."""
     monkeypatch.setenv("DEEPINFRA_API_KEY", "di-test-key")
     with respx.mock:
-        route = respx.post(
-            "https://api.deepinfra.com/v1/openai/chat/completions"
-        ).respond(
+        route = respx.post("https://api.deepinfra.com/v1/openai/chat/completions").respond(
             200,
             json={
                 "model": "deepseek-ai/DeepSeek-V4-Flash-0731",

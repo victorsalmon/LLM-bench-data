@@ -1,6 +1,5 @@
 """Tests for the Typer CLI."""
 
-
 import pytest
 import respx
 from typer.testing import CliRunner
@@ -151,9 +150,7 @@ def test_appraise_writes_csv(
     }
 
     with respx.mock:
-        respx.post("https://openrouter.ai/api/v1/chat/completions").respond(
-            200, json=payload
-        )
+        respx.post("https://openrouter.ai/api/v1/chat/completions").respond(200, json=payload)
         result = runner.invoke(
             app,
             [

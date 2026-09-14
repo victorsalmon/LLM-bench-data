@@ -44,28 +44,14 @@ File naming: `speed-timeseries-<YYYY-MM-DD>.csv`
 | `output_tokens` | int? | Output tokens returned by API |
 | `elapsed_ms` | int? | Wall-clock milliseconds for the response |
 | `tokens_per_sec` | float? | `output_tokens / (elapsed_ms / 1000)`, rounded to 1 decimal |
-| `cost` | string | USD cost of the call (formula from enrich-costs.ps1), or `N/A` |
+| `cost` | string | USD cost of the call (legacy; enrichment script removed), or `N/A` |
 | `status` | string | `success`, `not_found`, `timeout`, `blocked`, or `error` |
 | `error` | string | Error message (truncated to 200 chars) on failure, empty on success |
 | `measured_at` | string | ISO-ish timestamp of when the call was made |
 
 ## Running the Experiment
 
-```powershell
-# Full 24-hour run (starts at next hour boundary)
-pwsh scripts/speed-timeseries.ps1
-
-# Shorter test run (3 rounds)
-pwsh scripts/speed-timeseries.ps1 -Rounds 3
-
-# Dry run (validates config, prints plan, no API calls)
-pwsh scripts/speed-timeseries.ps1 -DryRun
-
-# Custom parameters
-pwsh scripts/speed-timeseries.ps1 -Rounds 6 -MaxTokens 1000 -Prompt "Count from 1 to 500"
-```
-
-The script is resumable — if interrupted, re-run it and it will skip already-completed (hour, model) pairs by loading the existing CSV.
+The original `speed-timeseries.ps1` harness has been removed. Current weekly runs: `../speed-weekly/README.md`.
 
 ## Cost Estimate
 

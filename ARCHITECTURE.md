@@ -64,4 +64,4 @@ Three SQLModel tables:
 
 ## Legacy migration
 
-The original PowerShell measurement and enrichment scripts have been removed. The Python CLI (`llmcc`) now covers tokenizer efficiency, output verbosity, compression, speed, and per-model appraisal. The remaining `scripts/` helpers are: `validate-data.py` (used by `commit-data.sh`) and `commit-data.sh` itself for the data-commit protocol; plus the Session 6b data-cleanup utilities `analyze-s6b.py`, `close-gaps-s6b-rerun.py`, and `merge-s6b-clean.py`.
+The original PowerShell measurement and enrichment scripts have been removed. The Python CLI (`llmcc`) now covers tokenizer efficiency, output verbosity, compression, speed, and per-model appraisal. The remaining `scripts/` helpers are: `validate-data.py` (used by `commit-data.sh`) and `commit-data.sh` itself for the data-commit protocol; plus the Session 6b data-cleanup utilities `analyze-s6b.py`, `close-gaps-s6b-rerun.py`, and `merge-s6b-clean.py`; and the weekly speed benchmark `speed-weekly.py` with its scheduled-task installer `install-speed-weekly-scheduled-task.ps1`.

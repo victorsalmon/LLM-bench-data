@@ -207,11 +207,11 @@ The comparison set (the models the new model is measured *against*) is **not** r
 
 ### Cross-repo layout
 
-Both repos live under `C:\Repos\`, siblings:
+The repo and the site live under separate roots:
 - This repo: `C:\Repos\LLM-Bench-Data` → `github.com/victorsalmon/LLM-bench-data`
 - The site: `C:\Sites\clocklobster.com` → `worktree.ca/clocklobster/clocklobster.com`
 
-From this repo root the site is at `../clocklobster.com` (one level up, across). The site's `AGENTS.md` documents the reverse path and mandates auto-commit/push to `main`; this repo's `AGENTS.md` does the same.
+The site repo lives at `C:\Sites\clocklobster.com` (not a sibling of this repo). The site's `AGENTS.md` documents the reverse path and mandates auto-commit/push to `main`; this repo's `AGENTS.md` does the same.
 
 ### When to update the watch list
 

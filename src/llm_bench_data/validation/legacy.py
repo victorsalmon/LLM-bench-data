@@ -74,9 +74,7 @@ def find_empty_required_values(
 ) -> int:
     """Count rows with an empty required value on a successful result."""
     return sum(
-        1
-        for row in rows
-        if row.get(status_col) == required_status and _is_blank(row.get(col))
+        1 for row in rows if row.get(status_col) == required_status and _is_blank(row.get(col))
     )
 
 

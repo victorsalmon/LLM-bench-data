@@ -36,7 +36,7 @@ Install / sync: `uv sync --all-extras`.
 | `.env` | **Gitignored.** Holds provider API keys (`OPENROUTER_API_KEY` and/or `DEEPINFRA_API_KEY`). Copy from `.env.example`. |
 | `llmcc` | CLI entry point (`uv run llmcc --help`). |
 | `catalogs/` | YAML source of truth for models, tasks, samples, methods, experiments, tiers. |
-| `scripts/` | Python validation + commit helpers (`validate-data.py`, `commit-data.sh`). |
+| `scripts/` | Python validation + commit helpers (`validate-data.py`, `commit-data.sh`), the weekly speed benchmark (`speed-weekly.py`), and its scheduled-task installer (`install-speed-weekly-scheduled-task.ps1`). |
 | `data/appraise/` | Per-model appraisal raw CSVs (`<slug>-<date>.csv`). |
 | `data/`, `data/output-experiment/` | Batch session CSVs (Session 5 / 6 / 6b). |
 
@@ -54,12 +54,12 @@ Conventional Commits. Observed scopes: `feat(data):`, `feat(appraise):`, `fix(mo
 
 ## Cross-repo layout
 
-Two repos live as siblings under `C:\Repos\`:
+The two repos live under separate roots:
 
 - **This repo** (data + scripts): `C:\Repos\LLM-Bench-Data`
 - **The website** (static, dotCanada/LiteSpeed): `C:\Sites\clocklobster.com` → `worktree.ca/clocklobster/clocklobster.com`
 
-From this repo root the site is at `../clocklobster.com`. Sibling repos are flat under `C:\Repos\`. The per-model appraisal pipeline writes a **News** post into the site repo's `blog/news/` and commits/pushes both repos. The site's `AGENTS.md` documents the reverse path.
+From this repo the site lives at `C:\Sites\clocklobster.com` (not a sibling). The per-model appraisal pipeline writes a **News** post into the site repo's `blog/news/` and commits/pushes both repos. The site's `AGENTS.md` documents the reverse path.
 
 Fleet watcher safety (cwd mandate, test staggering — hard block): `C:\Repos\cl-common\saas-modules\docs\agent-watcher-safety.md`.
 

@@ -108,6 +108,7 @@ def test_chat_timeout_is_raised(settings: Settings) -> None:
 
         assert route.call_count == settings.default_retries
 
+
 def test_negative_tokens_rejected(settings: Settings) -> None:
     """A payload with negative prompt_tokens raises the typed APIError."""
     with respx.mock:

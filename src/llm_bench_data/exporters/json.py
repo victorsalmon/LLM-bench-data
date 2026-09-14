@@ -30,9 +30,7 @@ class BenchmarkExporter:
 
     def _aggregate(self) -> dict[str, Any]:
         """Group measurements by model and experiment, then compute summary stats."""
-        by_model: dict[str, dict[str, list[Measurement]]] = defaultdict(
-            lambda: defaultdict(list)
-        )
+        by_model: dict[str, dict[str, list[Measurement]]] = defaultdict(lambda: defaultdict(list))
         for measurement in self.measurements:
             by_model[measurement.model_slug][measurement.experiment_id].append(measurement)
 

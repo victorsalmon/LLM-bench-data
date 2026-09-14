@@ -18,16 +18,12 @@ class Settings(BaseSettings):
     openrouter_api_key: SecretStr | None = Field(
         default=None, validation_alias="OPENROUTER_API_KEY"
     )
-    deepinfra_api_key: SecretStr | None = Field(
-        default=None, validation_alias="DEEPINFRA_API_KEY"
-    )
+    deepinfra_api_key: SecretStr | None = Field(default=None, validation_alias="DEEPINFRA_API_KEY")
     alibaba_api_key: SecretStr | None = Field(
         default=None,
         validation_alias=AliasChoices("ALIBABA_API", "ALIBABA_KEYSUB"),
     )
-    alibaba_workspace_id: str | None = Field(
-        default=None, validation_alias="ALIBABA_ID1"
-    )
+    alibaba_workspace_id: str | None = Field(default=None, validation_alias="ALIBABA_ID1")
     output_dir: Path = Field(default=Path("data"), validation_alias="LLMCC_OUTPUT_DIR")
     database_url: str = Field(
         default="sqlite:///data/llm_bench_data.db",
