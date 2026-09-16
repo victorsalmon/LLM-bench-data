@@ -61,7 +61,7 @@ class Model(BaseModel):
 
     def provider_id(self, provider: str) -> str:
         """Return this model's identifier for *provider*."""
-        provider_id = getattr(self, f"{provider}_id", None)
+        provider_id: str | None = getattr(self, f"{provider}_id", None)
         if provider_id:
             return provider_id
         if provider == "openrouter":

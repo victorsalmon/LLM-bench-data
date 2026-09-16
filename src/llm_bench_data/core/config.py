@@ -13,6 +13,7 @@ class Settings(BaseSettings):
         env_file=".env",
         env_file_encoding="utf-8",
         extra="ignore",
+        validate_by_name=True,
     )
 
     openrouter_api_key: SecretStr | None = Field(
