@@ -231,3 +231,40 @@ def test_validate_data_py_and_llmcc_validate_agree(tmp_path: Path) -> None:
 
     assert clean_script.returncode == 0
     assert not any("CORRUPTION" in e for e in clean_legacy[0])
+
+
+def _write_model_id_prompt_csv(path: Path, rows: list[dict[str, str]]) -> None:
+    """Write a model_id + prompt_tokens CSV (the validate-data.py fallback shape)."""
+    with open(path, "w", newline="") as fh:
+        writer = csv.DictWriter(fh, fieldnames=["model_id", "prompt_tokens", "status"])
+        writer.writeheader()
+        writer.writerows(rows)
+
+
+def test_constant_prompt_tokens_per_model_id_rejected(tmp_path: Path) -> None:
+    """A2 regression: one prompt_tokens value repeated per model_id is rejected.
+
+    Emulates the A2 speed-CSV shape (model_id + prompt_tokens, no task/method
+    columns), which validate-data.py classifies via its content fallback and
+    groups by model_id.
+    """
+    repo_root = Path(__file__).resolve().parents[2]
+    corrupt_rows = [
+        {"model_id": "m1", "prompt_tokens": "19", "status": "success"},
+    ] * 5
+
+    corrupt_path = tmp_path / "constant-per-model.csv"
+    _write_model_id_prompt_csv(corrupt_path, corrupt_rows)
+
+    result = subprocess.run(
+        [sys.executable, "scripts/validate-data.py", str(corrupt_path)],
+        cwd=repo_root,
+        capture_output=True,
+        text=True,
+    )
+
+    assert result.returncode != 0
+    assert "CORRUPTION SIGNATURE" in result.stdout
+
+    errors, _ = validate_csv_signature(corrupt_rows, variance_groups=["model_id"])
+    assert any("CORRUPTION" in e for e in errors)
