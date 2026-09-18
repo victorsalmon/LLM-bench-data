@@ -9,7 +9,7 @@ Re-runs: Llama 3.3 70B, MiMo-V2.5, Codestral, Perplexity Sonar, GPT-5.4 Nano
 Each: 5 methods x 16 tasks = 80 calls. Total = 400 calls.
 Output: data/output-experiment/session6b-rerun-cheap.csv (clean schema).
 
-Reason: original run-s6b-expansion.ps1 corrupted these models' rows.
+Reason: the original PowerShell S6b runner corrupted these models' rows.
 """
 import csv, json, os, time, urllib.request
 

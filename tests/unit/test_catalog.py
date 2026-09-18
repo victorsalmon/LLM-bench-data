@@ -30,7 +30,6 @@ def test_model_lookup() -> None:
     assert flash.alibaba_id == "deepseek-v4-flash"
     assert flash.max_variants[0].slug == "deepseek-v4-flash-max"
 
-    # Resolve from provider id.
     by_id = catalog.get_model_by_openrouter_id("anthropic/claude-fable-5")
     assert by_id.slug == "claude-fable-5"
 

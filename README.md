@@ -21,8 +21,6 @@ uv run pytest
 # Validate an existing CSV for the Session 6b corruption signature
 uv run llmcc validate data/experiment-session5-consolidated.csv
 
-`llmcc validate` and `scripts/validate-data.py --strict` share the same corruption-signature thresholds; the CLI is the canonical implementation.
-
 # Run an experiment through OpenRouter (default)
 uv run llmcc run tokenizer-efficiency --dry-run
 
@@ -41,6 +39,10 @@ uv run llmcc export benchmarks.json --experiment-id tokenizer-efficiency --forma
 # Migrate a legacy Session 5 CSV into the database
 uv run llmcc migrate-legacy data/experiment-session5-consolidated.csv session-5
 ```
+
+`llmcc validate` and `scripts/validate-data.py --strict` share the same corruption-signature thresholds; the CLI is the canonical implementation.
+
+See `docs/deepinfra.md` for DeepInfra provider setup and the OpenRouter/DeepInfra model-ID mapping.
 
 ## Development
 

@@ -8,7 +8,7 @@ This file tells any AI assistant (human or automated) what it needs to know befo
 
 ## What this repo is
 
-The benchmark **data + scripts backend** for Clock Lobster Labs. Tokenizer efficiency, output verbosity, compression, token speed, and per-model appraisal measurements for the LLMs the user evaluates. Results land in CSVs here and are summarized into `models.json` (the canonical model database), which the sibling website's Benchmarks sub-blog reads from.
+The benchmark **data + scripts backend** for Clock Lobster Labs. Tokenizer efficiency, output verbosity, compression, token speed, and per-model appraisal measurements for the LLMs the user evaluates. Results land in CSVs here and are summarized into `models.json` (the canonical model database), which the website's Benchmarks sub-blog reads from (see Cross-repo layout).
 
 - **GitHub:** `github.com/victorsalmon/LLM-bench-data`
 - **Skill:** `SKILL.md` defines the `research/appraise-llm` skill (market-wide research + per-model appraisal pipeline).

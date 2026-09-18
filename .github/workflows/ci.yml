@@ -2,11 +2,11 @@
 # - Secrets scan: gitleaks v8.30.1 (pinned docker tag, no license required) runs before
 #   tests so a leaked key fails fast. The repo-root .gitleaks.toml extends the default
 #   rule set with the OpenRouter key pattern (sk-or-v1-...) and is auto-detected.
-# - Validate data: mirrors the commit-data.sh pre-commit step (AGENTS.md completion
+# - Validate data: mirrors the commit-data.sh validation step (AGENTS.md completion
 #   protocol). `llmcc validate` hard-fails on the known corruption-prone file
-#   (session6b-expansion-raw.csv); validate-data.py --strict runs diagnostically while
-#   data/speed-benchmark-gapfill.csv still carries a pre-existing corruption signature
-#   (cleanup tracked as a follow-up task; flip to hard-fail once repaired).
+#   (session6b-expansion-raw.csv); validate-data.py --strict currently runs
+#   diagnostically because legitimate raw CSVs still report non-success rows
+#   (7 warnings as of 2026-09-18); flip to hard-fail once those are clean.
 # - No workflow secret contains the OpenRouter API key; OPENROUTER_API_KEY lives only
 #   in the gitignored .env.
 name: CI

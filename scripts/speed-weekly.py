@@ -1,16 +1,17 @@
 """Weekly speed consistency benchmark for non-frontier coding/agentic LLMs.
 
 Runs a small tokenization + coding challenge against a configurable model list
-for a configurable number of rounds. The default schedule fires once every 3
-hours for 24 hours (8 rounds per week). Writes a resumable time-of-day CSV.
-Supports multi-provider benchmarking (OpenRouter, DeepInfra, OpenCode/Alibaba)
-so provider speed/cost can be compared.
+for a configurable number of rounds. The default manual run is 24 hourly
+rounds; the Windows Scheduled Task runs one round per trigger, eight triggers
+per 8-day snapshot. Writes a resumable time-of-day CSV. Supports multi-provider
+benchmarking (OpenRouter, DeepInfra, OpenCode/Alibaba) so provider speed/cost
+can be compared.
 
 Designed to be invoked:
 
 - manually for a one-off 24h run:
     uv run python scripts/speed-weekly.py
-- via a Tempo cron schedule every hour on the same day:
+- via the Windows Scheduled Task (one round per trigger):
     uv run python scripts/speed-weekly.py --rounds 1 --no-wait
 - to generate or refresh the model list:
     uv run python scripts/speed-weekly.py --generate-config

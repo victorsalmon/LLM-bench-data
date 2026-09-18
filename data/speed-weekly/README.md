@@ -48,7 +48,7 @@ is currently configured for OpenRouter and DeepInfra.
 # 24-hour run starting at the next hour boundary (24 rounds / hourly)
 uv run python scripts/speed-weekly.py
 
-# Single round (for cron/Tempo schedules that fire every 3 hours)
+# Single round (for the Windows Scheduled Task, which fires every 3 hours; see Scheduling)
 uv run python scripts/speed-weekly.py --rounds 1 --no-wait --max-tokens 250
 
 # Regenerate the default model list after updating models.json/catalogs

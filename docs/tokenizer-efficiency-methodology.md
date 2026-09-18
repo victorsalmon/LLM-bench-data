@@ -163,7 +163,7 @@ The Fugu Ultra call ($0.391 for 14,529 input + 10,729 output) dominated the camp
    C_total = (W_in × E × Pin/1e6) + ((W_out × E + T_think) × Pout/1e6)
    ```
 2. **7:2:1 blend** comparisons use E for per-task cost parity (though E cancels out in same-family comparisons, it matters across families)
-3. **Cost-per-work-unit** examples in `work-unit-examples.md` use E to compute real USD cost per coding/planning/review task
+3. **Cost-per-work-unit** examples use E to compute real USD cost per coding/planning/review task
 4. **Strategy assessments** factor E into "is this model actually cheaper?" — a model with lower per-token price but higher E may cost more per task
 
 ## How to Measure a New Model
