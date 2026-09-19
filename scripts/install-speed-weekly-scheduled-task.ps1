@@ -16,7 +16,7 @@
 
 $ErrorActionPreference = "Stop"
 
-$repoDir = "C:\Repos\LLM-Bench-Data"
+$repoDir = Split-Path -Parent $PSScriptRoot
 $scriptPath = Join-Path $repoDir "scripts\speed-weekly.py"
 
 $uv = (Get-Command uv -ErrorAction SilentlyContinue).Source
