@@ -56,12 +56,12 @@ Conventional Commits. Observed scopes: `feat(data):`, `feat(appraise):`, `fix(mo
 
 The two repos live under separate roots:
 
-- **This repo** (data + scripts): `C:\Repos\LLM-Bench-Data`
+- **This repo** (data + scripts): the `LLM-Bench-Data` checkout
 - **The website** (static, dotCanada/LiteSpeed): `C:\Sites\clocklobster.com` → `worktree.ca/clocklobster/clocklobster.com`
 
 From this repo the site lives at `C:\Sites\clocklobster.com` (not a sibling). The per-model appraisal pipeline writes a **News** post into the site repo's `blog/news/` and commits/pushes both repos. The site's `AGENTS.md` documents the reverse path.
 
-Fleet watcher safety (cwd mandate, test staggering — hard block): `C:\Repos\cl-common\saas-modules\docs\agent-watcher-safety.md`.
+Fleet watcher safety (cwd mandate, test staggering — hard block): the shared machine-rules doc `docs/agent-watcher-safety.md` (lives outside this repo).
 
 ---
 
