@@ -191,7 +191,7 @@ The comparison set (the models the new model is measured *against*) is **not** r
    ```
    uv run llmcc appraise <slug>
    ```
-   This writes `data/appraise/<slug>-<YYYY-MM-DD>.csv` and prints three headline metrics: `tokenizer_efficiency` (the 60:40 code:prose blend), `thinking_token_ratio` (0 if non-reasoning), and `speed_tok_per_s` (the 1000-token setting). The `appraisal` experiment runs tokenizer samples, a speed check, and a reasoning check for the requested model slug; reasoning-token output is captured when the model exposes a reasoning effort control (DeepSeek Pro/Flash Max, o-series, R1, etc.).
+   This writes `data/appraise/<slug>-<YYYY-MM-DD>.csv` and prints only a one-line run summary (`Appraisal run <id> finished with status '<status>'. Wrote N rows to <path>.`) — it does **not** print headline metrics. The `appraisal` experiment runs tokenizer samples (code / prose / blended), a speed check (`speed_max_tokens = 3300`), and a reasoning check for the requested model slug; reasoning-token output is captured when the model exposes a reasoning effort control (DeepSeek Pro/Flash Max, o-series, R1, etc.). The headline values (`tokenizer_efficiency`, `thinking_token_ratio`, `speed_tok_per_s`) are aggregated from those rows by `BenchmarkExporter` (`uv run llmcc export --format json`) — see `data/appraise/README.md`.
 
 3. **Research SWE** — SWE-bench Verified + SWE-bench Pro from published leaderboards ([swebench.com](https://swebench.com), [artificialanalysis.ai](https://artificialanalysis.ai)). Each score is stored as `{ score, source, date }`. Use `null` if the model is untested — matches the existing `models.json` convention. There is no local SWE harness; these are externally-published, attributed, dated scores.
 
