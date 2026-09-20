@@ -10,10 +10,11 @@ Each model family has its own tokenizer (BPE, DSL, o200k, SentencePiece, etc.), 
 
 ### Sample Texts
 
-Two sample texts are used:
+Three sample texts are used:
 
 - **Code sample** (~306 words): A realistic multi-function TypeScript file with imports, type definitions, async error handling, generic constraints, and array methods. Capture the verbosity of real coding (braces, dots, parentheses, operators, whitespace).
 - **Prose sample** (~235 words): A technical architecture discussion with paragraphs, bullet points, dashes, and colons. Reflects documentation and planning text.
+- **Blended sample** (~250 words): Technical documentation prose with inline code references and identifiers. Provides a third reference point for mixed text.
 
 ### API Call Pattern
 
@@ -24,7 +25,7 @@ For each model family:
 3. Read `usage.prompt_tokens` from response
 4. Compute `E = prompt_tokens / word_count(sample)`
 
-Two calls per family (one code, one prose). `max_tokens=20` minimizes output cost — only the input tokenization matters for E.
+Three calls per family (one per sample). `max_tokens=20` minimizes output cost — only the input tokenization matters for E.
 
 ### Blend Formula
 

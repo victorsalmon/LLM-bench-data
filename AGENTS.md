@@ -83,7 +83,7 @@ After any productive change (data added, script written, model appraised), you a
 
 ## Security note
 
-`.env` is gitignored and must never be committed. If a real API key is ever found committed in history, rotate it immediately and purge from history. Never print the key to logs or commit messages. The legacy `experiment-config.ps1` file is kept only as a legacy/example reference; the canonical config path is `.env` (copy from `.env.example`).
+`.env` is gitignored and must never be committed. If a real API key is ever found committed in history, rotate it immediately and purge from history. Never print the key to logs or commit messages. The legacy PowerShell config survives only as a commented example (`experiment-config.example.ps1`); `experiment-config.ps1` itself is gitignored (see `.gitignore`). The canonical config path is `.env` (copy from `.env.example`).
 
 ---
 

@@ -6,7 +6,7 @@ LLM speed benchmark.
 ## Purpose
 
 Measure tokens/second for a small, fixed coding task once every 3 hours for
-24 hours, once per week (8 rounds total). The goal is **consistency**: detecting
+24 hours, once every 8 days (8 rounds total). The goal is **consistency**: detecting
 which endpoints slow down at which times, not producing a perfect absolute speed
 number.
 

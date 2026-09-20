@@ -10,21 +10,20 @@ when a new model drops, one file lands here.
 
 ## CSV schema
 
-```
-model_id,model_name,family,slug,date,measurement,sample_type,reasoning_effort,
-max_tokens,prompt_tokens,output_tokens,reasoning_tokens,elapsed_ms,tokens_per_sec,
-tokens_per_word,blend_60_40,cost,status,error
-```
+The CSV is the raw `Measurement` export. Its columns are defined by the
+`CSVExporter.BASE_COLUMNS` contract in
+`src/llm_bench_data/exporters/csv.py` — link there rather than restating the
+list here. Tokenizer rows carry `sample_id` (`code` / `prose` / `blended`); the
+speed and reasoning rows leave it empty.
 
-- `measurement` — `tokenizer_E` | `thinking_tokens` | `speed`
-- `sample_type` — `code` | `prose` | `blended` (for tokenizer_E / thinking); `numbers` (for speed)
-- `reasoning_effort` — `none` | `xhigh` (only `thinking_tokens` rows use `xhigh`)
-- `cost` — per-call cost, enriched inline from live OpenRouter pricing
+## Headline metrics
 
-## Headline metrics (derived by the script, printed to console)
+`uv run llmcc appraise <slug>` writes the raw rows and prints only a run
+summary. The headline values are derived from those rows by the JSON exporter
+(`BenchmarkExporter`, `uv run llmcc export --format json`):
 
-- **tokenizer_efficiency** = `0.6*E_code + 0.4*E_prose` (the 60:40 blend)
-- **thinking_token_ratio** = `reasoning_tokens / completion_tokens` (thinking_tokens row only)
-- **speed_tok_per_s** = the `max_tokens=1000` speed row
+- **tokenizer_efficiency** — mean tokens per word across the tokenizer samples
+- **thinking_token_ratio** — `reasoning_tokens / completion_tokens` from the reasoning check
+- **speed_tok_per_s** — from the speed check's completion tokens and elapsed time
 
-These three values land in `models.json` under the appraised model's entry.
+Copy the values you want to keep into `models.json` under the appraised model's entry.
