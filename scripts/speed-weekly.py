@@ -24,11 +24,9 @@ import csv
 import json
 import sys
 import time
-from collections.abc import Sequence
 from datetime import UTC, datetime, timedelta
-from decimal import Decimal
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 from zoneinfo import ZoneInfo
 
 import yaml
@@ -39,6 +37,8 @@ from llm_bench_data.clients.openrouter import OpenRouterClient
 from llm_bench_data.core.config import Settings
 from llm_bench_data.core.models import ChatRequest, Message, Model, ProviderPricing
 
+if TYPE_CHECKING:
+    from collections.abc import Sequence
 
 DEFAULT_PROMPT = """A code tokenizer splits this Python snippet into tokens:
 
@@ -107,7 +107,7 @@ def load_models(config_path: Path) -> list[dict[str, Any]]:
     elif isinstance(data, list):
         models = data
     else:
-        raise ValueError(f"Unexpected shape in {config_path}")
+        raise TypeError(f"Unexpected shape in {config_path}")
 
     # Backward compat: migrate flat openrouter-only entries to providers dict.
     for m in models:
@@ -122,7 +122,9 @@ def load_models(config_path: Path) -> list[dict[str, Any]]:
     return models
 
 
-def _pricing_to_float(pricing: ProviderPricing | dict[str, Any] | None, direction: str) -> float | None:
+def _pricing_to_float(
+    pricing: ProviderPricing | dict[str, Any] | None, direction: str
+) -> float | None:
     if pricing is None:
         return None
     if isinstance(pricing, ProviderPricing):
@@ -159,7 +161,12 @@ def _provider_price(
                 out_price = _pricing_to_float(mjson_model.get(key), "output")
 
     # 3. Alibaba maps to Zen/OpenCode pricing.
-    if provider == "alibaba" and catalog_model.zen_available and in_price is None and out_price is None:
+    if (
+        provider == "alibaba"
+        and catalog_model.zen_available
+        and in_price is None
+        and out_price is None
+    ):
         zen_pricing = catalog_model.pricing.get("zen") if catalog_model.pricing else None
         if zen_pricing:
             in_price = _pricing_to_float(zen_pricing, "input")
@@ -173,7 +180,7 @@ def _has_provider_id(catalog_model, provider: str) -> bool:
     return bool(getattr(catalog_model, attr, None))
 
 
-def build_default_config(output_path: Path) -> list[dict[str, Any]]:
+def build_default_config() -> list[dict[str, Any]]:
     """Derive the default weekly model list from models.json + catalogs/models.yaml."""
     models_json = json.loads(MODELS_JSON_PATH.read_text(encoding="utf-8"))
     mjson_models = models_json.get("models", {})
@@ -266,7 +273,9 @@ def write_config(models: list[dict[str, Any]], output_path: Path) -> None:
     """Write the model list config to disk."""
     output_path.parent.mkdir(parents=True, exist_ok=True)
     payload = {
-        "_comment": "Edit this list to add or remove models/providers from the weekly speed benchmark.",
+        "_comment": (
+            "Edit this list to add or remove models/providers from the weekly speed benchmark."
+        ),
         "models": models,
     }
     tmp = output_path.with_suffix(output_path.suffix + ".tmp")
@@ -283,7 +292,7 @@ def estimate_cost(
     """Estimate the total cost for a weekly run in USD."""
     total = 0.0
     for m in models:
-        for provider, p in m.get("providers", {}).items():
+        for p in m.get("providers", {}).values():
             in_price = p.get("in_price") or 0.0
             out_price = p.get("out_price") or 0.0
             total += rounds * (prompt_tokens * in_price + output_tokens * out_price) / 1e6
@@ -299,6 +308,7 @@ def load_existing_rows(csv_path: Path) -> list[dict[str, Any]]:
 
 
 def row_key(row: dict[str, Any]) -> tuple[str, str, str]:
+    """Return the (hour, slug, provider) identity key for a CSV row."""
     return (row.get("hour_utc", ""), row.get("slug", ""), row.get("provider", ""))
 
 
@@ -381,7 +391,9 @@ def run_round(
             tokens_per_sec = response.completion_tokens * 1000 / elapsed
             in_price = item.get("in_price") or 0.0
             out_price = item.get("out_price") or 0.0
-            cost = (response.prompt_tokens * in_price + response.completion_tokens * out_price) / 1e6
+            cost = (
+                response.prompt_tokens * in_price + response.completion_tokens * out_price
+            ) / 1e6
             rows.append(
                 {
                     "run_date": run_date,
@@ -457,6 +469,7 @@ def expand_items(
 
 
 def main(argv: list[str] | None = None) -> int:
+    """Parse arguments and run the benchmark; returns a process exit code."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--models",
@@ -529,15 +542,23 @@ def main(argv: list[str] | None = None) -> int:
         return 1
 
     if args.generate_config:
-        models = build_default_config(args.models)
+        models = build_default_config()
         write_config(models, args.models)
-        provider_counts = {p: sum(1 for m in models if p in m.get("providers", {})) for p in DEFAULT_PROVIDERS}
-        print(f"Wrote {len(models)} models ({sum(provider_counts.values())} model/provider pairs) to {args.models}")
+        provider_counts = {
+            p: sum(1 for m in models if p in m.get("providers", {})) for p in DEFAULT_PROVIDERS
+        }
+        print(
+            f"Wrote {len(models)} models ({sum(provider_counts.values())} "
+            f"model/provider pairs) to {args.models}"
+        )
         for out_tok, label in ((250, "consistency"), (500, "default"), (750, "accuracy")):
             # 24 rounds = hourly for 24h; 8 rounds = every 3h for 24h
             cost_8 = estimate_cost(models, 140, out_tok, 8)
             cost_24 = estimate_cost(models, 140, out_tok, 24)
-            print(f"  ~{out_tok} output tokens ({label}): 8 rounds ${cost_8:.2f}/week, 24 rounds ${cost_24:.2f}/week")
+            print(
+                f"  ~{out_tok} output tokens ({label}): 8 rounds ${cost_8:.2f}/week, "
+                f"24 rounds ${cost_24:.2f}/week"
+            )
         return 0
 
     if not args.models.exists():
@@ -557,7 +578,7 @@ def main(argv: list[str] | None = None) -> int:
 
     print(f"Loaded {len(items)} model/provider pairs for weekly speed benchmark")
     if args.dry_run:
-        print(f"Prompt tokens (estimated): 140")
+        print("Prompt tokens (estimated): 140")
         print(f"Max output tokens: {args.max_tokens}")
         print(f"Rounds: {args.rounds}")
         print("Model/provider pairs:")
@@ -620,10 +641,16 @@ def main(argv: list[str] | None = None) -> int:
                 now = datetime.now(UTC)
                 if target > now:
                     wait = (target - now).total_seconds()
-                    print(f"Round {round_idx + 1}/{args.rounds}: waiting {wait:.0f}s until {target.isoformat()} UTC")
+                    print(
+                        f"Round {round_idx + 1}/{args.rounds}: waiting {wait:.0f}s "
+                        f"until {target.isoformat()} UTC"
+                    )
                     time.sleep(max(0, wait))
 
-            print(f"Round {round_idx + 1}/{args.rounds} UTC hour {hour_utc:02d} / PST hour {hour_pst:02d}")
+            print(
+                f"Round {round_idx + 1}/{args.rounds} UTC hour {hour_utc:02d} / "
+                f"PST hour {hour_pst:02d}"
+            )
 
             # Filter (hour, slug, provider) triples already completed.
             to_run = [

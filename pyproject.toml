@@ -65,7 +65,20 @@ packages = ["src/llm_bench_data"]
 target-version = "py312"
 line-length = 100
 src = ["src", "tests"]
-exclude = ["scripts", "data", "legacy", "tools", ".venv", ".git", "__pycache__"]
+# Maintained scripts (validate-data.py, speed-weekly.py) are gated like src/tests.
+# The legacy one-off Session 6b data-cleanup scripts are excluded; they each ran
+# once to repair the S6b corruption and are kept only for provenance.
+exclude = [
+    "data",
+    "legacy",
+    "tools",
+    ".venv",
+    ".git",
+    "__pycache__",
+    "scripts/analyze-s6b.py",
+    "scripts/close-gaps-s6b-rerun.py",
+    "scripts/merge-s6b-clean.py",
+]
 
 [tool.ruff.lint]
 select = [
