@@ -1,0 +1,25 @@
+version: 1
+target_repo: llm-bench-data
+region_required: ca-central-1
+standards:
+  canadian_data_sovereignty:
+    status: not_applicable
+    rationale: "Public benchmark measurements only (provider token counts, prices, published leaderboard scores); no data stores, keys, or backups in this repo. region_required records the fleet default intent and is re-confirmed if any hosted backing service is added."
+  pipeda:
+    status: not_applicable
+    rationale: "No personal information is collected or processed. CSVs hold model/tokenizer/speed measurements keyed by model slug, never by person; the only credential is the operator's own provider API key in the gitignored .env."
+  soc2:
+    status: not_applicable
+    rationale: "No customer-facing service, tenant, or trust surface; a local CLI plus outbound provider calls, with published benchmark data as the only output."
+  iso_27001:
+    status: not_applicable
+    rationale: "No ISMS scope, asset inventory, or runtime infrastructure is owned by this data backend repo; CI is the only execution surface."
+  hipaa:
+    status: not_applicable
+    rationale: "No health data and no US health-care covered-entity relationship; the repo holds LLM cost/performance measurements."
+  gdpr:
+    status: not_applicable
+    rationale: "No EU/EEA data subjects; measurements are model-level, not person-level. Revisit only if personal data is ever introduced."
+run_native_engine: false
+last_confirmed: 2026-09-20
+reconfirm_after_days: 365
