@@ -22,7 +22,12 @@ class AlibabaClient(OpenRouterClient):
             raise ValueError("ALIBABA_ID1 is required for the Alibaba provider")
 
         configured_endpoint = self.settings.alibaba_workspace_id.rstrip("/")
-        if configured_endpoint.startswith(("https://", "http://")):
+        if configured_endpoint.startswith("http://"):
+            raise ValueError(
+                "ALIBABA_ID1 must use an https:// endpoint — refusing to send the "
+                "bearer API key over cleartext"
+            )
+        if configured_endpoint.startswith("https://"):
             self.base_url = configured_endpoint
         else:
             workspace_id = quote(configured_endpoint, safe="")

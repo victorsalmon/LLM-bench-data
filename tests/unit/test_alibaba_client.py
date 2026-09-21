@@ -1,5 +1,6 @@
 """Tests for the Alibaba Cloud Model Studio client."""
 
+import pytest
 import respx
 
 from llm_bench_data.clients.alibaba import AlibabaClient
@@ -60,3 +61,14 @@ def test_chat_accepts_full_alibaba_endpoint(settings, monkeypatch) -> None:
             )
         )
         assert route.called
+
+
+def test_rejects_cleartext_http_endpoint(settings, monkeypatch) -> None:
+    """An http:// endpoint is rejected so the bearer key never travels in clear."""
+    monkeypatch.setenv("ALIBABA_KEYSUB", "alibaba-test-key")
+    monkeypatch.setenv(
+        "ALIBABA_ID1",
+        "http://ws-test.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+    )
+    with pytest.raises(ValueError, match="https://"):
+        AlibabaClient()
