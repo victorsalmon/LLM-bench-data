@@ -1,5 +1,4 @@
 {
-  "$schema": "./models.schema.json",
   "last_updated": "2026-08-13 (Session 7: appraised DeepSeek V4 Pro 0813 and V4 Flash 0731; updated tokenizer, speed, thinking, output-verbosity, and web benchmark scores).",
   "pricing_sources": {
     "primary": {
