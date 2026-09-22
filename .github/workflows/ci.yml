@@ -6,9 +6,12 @@
 #   rule set with the OpenRouter key pattern (sk-or-v1-...) and is auto-detected.
 # - Validate data: mirrors the commit-data.sh validation step (AGENTS.md completion
 #   protocol). `llmcc validate` hard-fails on the known corruption-prone file
-#   (session6b-expansion-raw.csv); validate-data.py --strict currently runs
-#   diagnostically because legitimate raw CSVs still report non-success rows
-#   (7 warnings as of 2026-09-18); flip to hard-fail once those are clean.
+#   (session6b-expansion-raw.csv) and validate-data.py --strict is hard-failing too.
+#   --strict passes because the remaining non-success rows are explicit policy, not
+#   leaks: raw capture files are matched by the documented `*-raw.csv` rule, terminal
+#   `maxed_at_*` rows are measured results, and the single merged-file row is a named
+#   exemption carrying its reason (see scripts/validate-data.py). A non-exempt
+#   non-success row still fails the step.
 # - No workflow secret contains the OpenRouter API key; OPENROUTER_API_KEY lives only
 #   in the gitignored .env.
 name: CI
@@ -47,7 +50,7 @@ jobs:
       - name: Validate data
         run: |
           uv run llmcc validate data/output-experiment/session6b-expansion-raw.csv --catalog catalogs
-          python scripts/validate-data.py --strict || true
+          python scripts/validate-data.py --strict
 
       - name: Lint
         run: uv run ruff check .
